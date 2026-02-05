@@ -12,8 +12,8 @@ import {
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
 
-// TODO: Import tool handlers
-// import { handleMultiEdit } from './tools/multi-edit.js';
+import { handleMultiEdit } from './tools/multi-edit.js';
+// TODO: Import multi_edit_files handler when implemented
 // import { handleMultiEditFiles } from './tools/multi-edit-files.js';
 
 const server = new Server(
@@ -70,6 +70,10 @@ const TOOLS = [
         create_backup: {
           type: 'boolean',
           description: 'Create .bak backup file before editing (default: false)',
+        },
+        include_content: {
+          type: 'boolean',
+          description: 'Include final file content in response (default: false, use for verification)',
         },
       },
       required: ['file_path', 'edits'],
@@ -134,16 +138,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
   try {
     if (name === 'multi_edit') {
-      // TODO: Implement
-      return {
-        content: [
-          {
-            type: 'text',
-            text: JSON.stringify({ error: 'Not implemented yet' }),
-          },
-        ],
-        isError: true,
-      };
+      return await handleMultiEdit(args);
     }
 
     if (name === 'multi_edit_files') {

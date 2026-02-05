@@ -4,10 +4,11 @@
  * Perform multiple find-and-replace operations on a single file atomically.
  */
 
+import { readFile } from 'node:fs/promises';
 import { applyEdits } from '../core/editor.js';
 import { validateMultiEditInput, isAbsolutePath } from '../core/validator.js';
-import { formatMultiEditResult, createErrorResult } from '../core/reporter.js';
-import type { MultiEditInput, MultiEditResult } from '../types/index.js';
+import { formatMultiEditResponse, createErrorResult } from '../core/reporter.js';
+import type { MultiEditInput } from '../types/index.js';
 
 /**
  * Handle multi_edit tool call
@@ -38,6 +39,14 @@ export async function handleMultiEdit(args: unknown): Promise<{
     };
   }
 
+  // Read file content for context snippets in error responses
+  let fileContent: string | undefined;
+  try {
+    fileContent = await readFile(input.file_path, 'utf-8');
+  } catch {
+    // File read error will be handled by applyEdits
+  }
+
   try {
     // Apply edits
     const result = await applyEdits(
@@ -47,15 +56,28 @@ export async function handleMultiEdit(args: unknown): Promise<{
       input.create_backup
     );
 
+    const response = formatMultiEditResponse(
+      result,
+      input.include_content ?? false,
+      input.edits.length,
+      fileContent
+    );
+
     return {
-      content: [{ type: 'text', text: formatMultiEditResult(result) }],
+      content: [{ type: 'text', text: JSON.stringify(response, null, 2) }],
       isError: !result.success,
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     const result = createErrorResult(input.file_path, message);
+    const response = formatMultiEditResponse(
+      result,
+      false,
+      input.edits.length,
+      fileContent
+    );
     return {
-      content: [{ type: 'text', text: formatMultiEditResult(result) }],
+      content: [{ type: 'text', text: JSON.stringify(response, null, 2) }],
       isError: true,
     };
   }
