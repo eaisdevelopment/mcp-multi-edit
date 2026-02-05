@@ -63,10 +63,10 @@ Plans:
   1. Tool rejects relative paths with clear error message explaining absolute path requirement
   2. Tool detects and rejects overlapping edits that would conflict with each other
   3. Validation errors return before any file read or write operations
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md - Path validation, duplicate detection, and full validation wiring
 
 ### Phase 4: Dry-Run Mode
 **Goal**: Users can preview what edits would change without modifying files
@@ -187,7 +187,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 |-------|----------------|--------|-----------|
 | 1. Core Editor Engine | 2/2 | ✓ Complete | 2026-02-05 |
 | 2. Single-File Tool Wiring | 1/1 | ✓ Complete | 2026-02-05 |
-| 3. Validation Layer | 0/TBD | Not started | - |
+| 3. Validation Layer | 0/1 | Not started | - |
 | 4. Dry-Run Mode | 0/TBD | Not started | - |
 | 5. Backup System | 0/TBD | Not started | - |
 | 6. Error Response System | 0/TBD | Not started | - |
