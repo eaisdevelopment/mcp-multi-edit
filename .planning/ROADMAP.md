@@ -13,7 +13,7 @@ This roadmap transforms the existing foundation (types, validation schemas, tool
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Core Editor Engine** - Implement applyEdits with atomic guarantees
-- [ ] **Phase 2: Single-File Tool Wiring** - Wire multi_edit tool to editor engine
+- [x] **Phase 2: Single-File Tool Wiring** - Wire multi_edit tool to editor engine
 - [ ] **Phase 3: Validation Layer** - Path validation and conflict detection
 - [ ] **Phase 4: Dry-Run Mode** - Preview changes without writing
 - [ ] **Phase 5: Backup System** - Create .bak files before editing
@@ -53,7 +53,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 02-01-PLAN.md - Wire handler to MCP server with enhanced response formatting
+- [x] 02-01-PLAN.md - Wire handler to MCP server with enhanced response formatting
 
 ### Phase 3: Validation Layer
 **Goal**: Invalid inputs are rejected before any file operations occur
@@ -186,7 +186,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Core Editor Engine | 2/2 | ✓ Complete | 2026-02-05 |
-| 2. Single-File Tool Wiring | 0/1 | Not started | - |
+| 2. Single-File Tool Wiring | 1/1 | ✓ Complete | 2026-02-05 |
 | 3. Validation Layer | 0/TBD | Not started | - |
 | 4. Dry-Run Mode | 0/TBD | Not started | - |
 | 5. Backup System | 0/TBD | Not started | - |

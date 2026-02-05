@@ -97,10 +97,10 @@
 | ERR-03 | Phase 6 | Pending |
 | ERR-04 | Phase 6 | Pending |
 | ERR-05 | Phase 6 | Pending |
-| MCP-01 | Phase 2 | Pending |
+| MCP-01 | Phase 2 | Complete |
 | MCP-02 | Phase 7 | Pending |
-| MCP-03 | Phase 2 | Pending |
-| MCP-04 | Phase 2 | Pending |
+| MCP-03 | Phase 2 | Complete |
+| MCP-04 | Phase 2 | Complete |
 | TEST-01 | Phase 8 | Pending |
 | TEST-02 | Phase 8 | Pending |
 | TEST-03 | Phase 9 | Pending |
@@ -118,4 +118,4 @@
 
 ---
 *Requirements defined: 2026-02-05*
-*Last updated: 2026-02-05 after Phase 1 completion*
+*Last updated: 2026-02-05 after Phase 2 completion*
