@@ -12,6 +12,8 @@ export interface EditOperation {
   new_string: string;
   /** Replace all occurrences (default: false) */
   replace_all?: boolean;
+  /** Case-insensitive matching (default: false) */
+  case_insensitive?: boolean;
 }
 
 /**
@@ -79,6 +81,8 @@ export interface MultiEditResult {
   dry_run: boolean;
   /** Path to backup file (if created) */
   backup_path?: string;
+  /** Final content after all edits (for testing/dry-run) */
+  final_content?: string;
 }
 
 /**
