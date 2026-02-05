@@ -380,11 +380,16 @@ describe('applyEdits file I/O', () => {
 
   it('should return clear error for permission denied', async () => {
     const { applyEdits } = await import('../../src/core/editor.js');
-    const tempPath = await createTempFile('hello');
+    const tempDir = os.tmpdir();
+    const readOnlyDir = path.join(tempDir, `test-readonly-${Date.now()}`);
+    const tempPath = path.join(readOnlyDir, 'test.txt');
 
     try {
-      // Make file read-only
-      await fs.chmod(tempPath, 0o444);
+      // Create a read-only directory with a file inside
+      await fs.mkdir(readOnlyDir);
+      await fs.writeFile(tempPath, 'hello', 'utf8');
+      // Make directory read-only (prevents creating temp file for atomic write)
+      await fs.chmod(readOnlyDir, 0o555);
 
       const result = await applyEdits(tempPath, [
         { old_string: 'hello', new_string: 'hi' }
@@ -395,8 +400,13 @@ describe('applyEdits file I/O', () => {
       expect(result.error?.toLowerCase()).toMatch(/permission|denied|eacces|eperm/);
     } finally {
       // Restore permissions before cleanup
-      await fs.chmod(tempPath, 0o644);
-      await cleanupFile(tempPath);
+      try {
+        await fs.chmod(readOnlyDir, 0o755);
+        await fs.unlink(tempPath);
+        await fs.rmdir(readOnlyDir);
+      } catch {
+        // Ignore cleanup errors
+      }
     }
   });
 });

@@ -5,6 +5,9 @@
  */
 
 import * as fs from 'fs/promises';
+import * as path from 'path';
+import * as crypto from 'crypto';
+import { isUtf8 } from 'buffer';
 import type { EditOperation, EditResult, MultiEditResult } from '../types/index.js';
 
 /**
@@ -203,6 +206,77 @@ export function applyEditsToContent(
 }
 
 /**
+ * Read file and validate it contains valid UTF-8 encoding
+ *
+ * @param filePath - Absolute path to the file
+ * @returns File content as string
+ * @throws Error with user-friendly message if file can't be read or isn't valid UTF-8
+ */
+export async function readFileValidated(filePath: string): Promise<string> {
+  const buffer = await fs.readFile(filePath);
+  if (!isUtf8(buffer)) {
+    throw new Error(`File contains invalid UTF-8 encoding: ${filePath}. Ensure the file is UTF-8 encoded.`);
+  }
+  return buffer.toString('utf8');
+}
+
+/**
+ * Write file atomically using temp-file-then-rename pattern
+ *
+ * Creates a temp file in the same directory, writes content, then renames.
+ * This ensures the file is never left in a partial state.
+ *
+ * @param filePath - Absolute path to the target file
+ * @param content - Content to write
+ * @throws Error if write or rename fails
+ */
+export async function atomicWrite(filePath: string, content: string): Promise<void> {
+  const dir = path.dirname(filePath);
+  const tempSuffix = crypto.randomBytes(6).toString('hex');
+  const tempPath = path.join(dir, `.${path.basename(filePath)}.${tempSuffix}.tmp`);
+
+  try {
+    await fs.writeFile(tempPath, content, 'utf8');
+    await fs.rename(tempPath, filePath);
+  } catch (error) {
+    // Clean up temp file on error
+    try {
+      await fs.unlink(tempPath);
+    } catch {
+      // Ignore cleanup errors - temp file may not exist
+    }
+    throw error;
+  }
+}
+
+/**
+ * Format file operation errors into user-friendly messages with recovery hints
+ *
+ * @param error - The error that occurred
+ * @param filePath - Path to the file that caused the error
+ * @returns User-friendly error message
+ */
+export function formatFileError(error: unknown, filePath: string): string {
+  if (error instanceof Error) {
+    const message = error.message;
+    const nodeError = error as NodeJS.ErrnoException;
+
+    if (nodeError.code === 'ENOENT' || message.includes('ENOENT')) {
+      return `File not found: ${filePath}. Check that file exists.`;
+    }
+    if (nodeError.code === 'EACCES' || nodeError.code === 'EPERM' ||
+        message.includes('EACCES') || message.includes('EPERM')) {
+      return `Permission denied: ${filePath}. Check file permissions.`;
+    }
+    if (message.includes('UTF-8') || message.includes('utf-8') || message.includes('encoding')) {
+      return message; // Already formatted
+    }
+    return `File error: ${message}`;
+  }
+  return `Unknown file error: ${filePath}`;
+}
+
+/**
  * Apply multiple edits to a file atomically
  *
  * @param filePath - Absolute path to the file
@@ -217,14 +291,56 @@ export async function applyEdits(
   dryRun: boolean = false,
   createBackup: boolean = false
 ): Promise<MultiEditResult> {
-  // TODO: Implement
   // 1. Read file content
-  // 2. Validate all edits can be applied
-  // 3. Apply edits sequentially
-  // 4. If any edit fails, rollback (atomic)
-  // 5. Write result (unless dry_run)
+  let content: string;
+  try {
+    content = await readFileValidated(filePath);
+  } catch (error) {
+    return {
+      success: false,
+      file_path: filePath,
+      edits_applied: 0,
+      results: [],
+      error: formatFileError(error, filePath),
+      dry_run: dryRun,
+    };
+  }
 
-  throw new Error('Not implemented');
+  // 2. Apply edits using in-memory function
+  const result = applyEditsToContent(filePath, content, edits, dryRun);
+
+  // 3. If edits failed or dry run, return without writing
+  if (!result.success || dryRun) {
+    return result;
+  }
+
+  // 4. Create backup if requested
+  if (createBackup) {
+    try {
+      const backupPath = `${filePath}.bak`;
+      await fs.writeFile(backupPath, content, 'utf8');
+      result.backup_path = backupPath;
+    } catch (error) {
+      return {
+        ...result,
+        success: false,
+        error: formatFileError(error, `${filePath}.bak`),
+      };
+    }
+  }
+
+  // 5. Write result atomically
+  try {
+    await atomicWrite(filePath, result.final_content!);
+  } catch (error) {
+    return {
+      ...result,
+      success: false,
+      error: formatFileError(error, filePath),
+    };
+  }
+
+  return result;
 }
 
 /**
