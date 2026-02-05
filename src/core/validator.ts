@@ -21,6 +21,7 @@ export const MultiEditInputSchema = z.object({
   edits: z.array(EditOperationSchema).min(1, 'At least one edit is required'),
   dry_run: z.boolean().optional().default(false),
   create_backup: z.boolean().optional().default(false),
+  include_content: z.boolean().optional().default(false),
 });
 
 /**

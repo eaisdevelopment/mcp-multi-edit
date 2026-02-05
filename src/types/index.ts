@@ -28,6 +28,8 @@ export interface MultiEditInput {
   dry_run?: boolean;
   /** Create backup file before editing (default: false) */
   create_backup?: boolean;
+  /** Include final file content in response (default: false) */
+  include_content?: boolean;
 }
 
 /**
