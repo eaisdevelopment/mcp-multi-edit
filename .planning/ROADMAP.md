@@ -36,10 +36,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Edit operation fails with clear error when old_string matches multiple locations (unless replace_all is true)
   4. Edits apply sequentially in array order, with later edits seeing results of earlier edits
   5. File is written atomically using temp-file-then-rename pattern (no partial states)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: TBD
+- [ ] 01-01-PLAN.md - Core applyEdits implementation with TDD (sequential simulation, error handling)
+- [ ] 01-02-PLAN.md - Atomic file I/O (UTF-8 validation, temp-then-rename write)
 
 ### Phase 2: Single-File Tool Wiring
 **Goal**: Claude can invoke multi_edit tool and receive structured results
@@ -184,7 +185,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Core Editor Engine | 0/TBD | Not started | - |
+| 1. Core Editor Engine | 0/2 | Not started | - |
 | 2. Single-File Tool Wiring | 0/TBD | Not started | - |
 | 3. Validation Layer | 0/TBD | Not started | - |
 | 4. Dry-Run Mode | 0/TBD | Not started | - |
