@@ -6,9 +6,8 @@
 
 import { readFile } from 'node:fs/promises';
 import { applyEdits } from '../core/editor.js';
-import { validateMultiEditInput, isAbsolutePath } from '../core/validator.js';
+import { validateMultiEditInputFull } from '../core/validator.js';
 import { formatMultiEditResponse, createErrorResult } from '../core/reporter.js';
-import type { MultiEditInput } from '../types/index.js';
 
 /**
  * Handle multi_edit tool call
@@ -17,35 +16,29 @@ export async function handleMultiEdit(args: unknown): Promise<{
   content: Array<{ type: string; text: string }>;
   isError?: boolean;
 }> {
-  // Validate input
-  const validation = validateMultiEditInput(args);
+  // Validate input using full layered validation
+  const validation = await validateMultiEditInputFull(args);
   if (!validation.success) {
-    const errorMessage = validation.error.issues
-      .map(i => `${i.path.join('.')}: ${i.message}`)
-      .join('; ');
+    const errorMessages = validation.errors.map(e =>
+      `${e.code}: ${e.message} (Hint: ${e.recovery_hint})`
+    ).join('\n');
     return {
-      content: [{ type: 'text', text: JSON.stringify({ error: `Validation failed: ${errorMessage}` }) }],
+      content: [{ type: 'text', text: JSON.stringify({
+        success: false,
+        error: 'Validation failed',
+        errors: validation.errors,
+        message: errorMessages
+      }, null, 2) }],
       isError: true,
     };
   }
 
-  const input = validation.data as MultiEditInput;
-
-  // Validate absolute path
-  if (!isAbsolutePath(input.file_path)) {
-    return {
-      content: [{ type: 'text', text: JSON.stringify({ error: 'file_path must be an absolute path' }) }],
-      isError: true,
-    };
-  }
+  const input = validation.data;
+  // Note: file_path is now resolved (symlinks followed) and guaranteed to exist
 
   // Read file content for context snippets in error responses
-  let fileContent: string | undefined;
-  try {
-    fileContent = await readFile(input.file_path, 'utf-8');
-  } catch {
-    // File read error will be handled by applyEdits
-  }
+  // File is guaranteed to exist after validation passes
+  const fileContent = await readFile(input.file_path, 'utf-8');
 
   try {
     // Apply edits
