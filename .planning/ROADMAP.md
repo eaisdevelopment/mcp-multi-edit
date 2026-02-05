@@ -50,10 +50,10 @@ Plans:
   1. Claude client can list available tools and see multi_edit with correct schema
   2. Claude client can call multi_edit and receive structured JSON response
   3. Tool returns success=true with edits_applied count when all edits succeed
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 02-01: TBD
+- [ ] 02-01-PLAN.md - Wire handler to MCP server with enhanced response formatting
 
 ### Phase 3: Validation Layer
 **Goal**: Invalid inputs are rejected before any file operations occur
@@ -186,7 +186,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Core Editor Engine | 2/2 | ✓ Complete | 2026-02-05 |
-| 2. Single-File Tool Wiring | 0/TBD | Not started | - |
+| 2. Single-File Tool Wiring | 0/1 | Not started | - |
 | 3. Validation Layer | 0/TBD | Not started | - |
 | 4. Dry-Run Mode | 0/TBD | Not started | - |
 | 5. Backup System | 0/TBD | Not started | - |
