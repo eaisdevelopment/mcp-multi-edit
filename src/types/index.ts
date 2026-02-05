@@ -3,6 +3,27 @@
  */
 
 /**
+ * Validation error with structured information
+ */
+export interface ValidationError {
+  /** Machine-readable error code: 'RELATIVE_PATH', 'PATH_TRAVERSAL', 'FILE_NOT_FOUND', etc. */
+  code: string;
+  /** Human-readable message with received value */
+  message: string;
+  /** JSON path to the invalid field: ['file_path'] or ['edits', '2', 'old_string'] */
+  path?: string[];
+  /** Actionable guidance for fixing the error */
+  recovery_hint: string;
+}
+
+/**
+ * Result of validation - either success with parsed data or failure with errors
+ */
+export type ValidationResult<T> =
+  | { success: true; data: T }
+  | { success: false; errors: ValidationError[] };
+
+/**
  * Single edit operation
  */
 export interface EditOperation {

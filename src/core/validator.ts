@@ -3,6 +3,10 @@
  */
 
 import { z } from 'zod';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+import type { ValidationError, ValidationResult, MultiEditInput } from '../types/index.js';
+import { truncateForDisplay } from './reporter.js';
 
 /**
  * Schema for a single edit operation
@@ -54,9 +58,94 @@ export function validateMultiEditFilesInput(input: unknown) {
 
 /**
  * Check if file path is absolute
+ * @deprecated Use validatePath for comprehensive path validation
  */
 export function isAbsolutePath(filePath: string): boolean {
   return filePath.startsWith('/');
+}
+
+/**
+ * Validate a file path for security and correctness
+ * Returns null if valid, ValidationError if invalid
+ */
+export function validatePath(filePath: string): ValidationError | null {
+  // Check for absolute path using Node's path module (cross-platform)
+  if (!path.isAbsolute(filePath)) {
+    return {
+      code: 'RELATIVE_PATH',
+      message: `Path must be absolute, received: "${truncateForDisplay(filePath, 50)}"`,
+      path: ['file_path'],
+      recovery_hint: 'Use absolute path (e.g., /home/user/project/file.ts)',
+    };
+  }
+
+  // Check for directory traversal attempts (..)
+  const segments = filePath.split(path.sep);
+  if (segments.includes('..')) {
+    return {
+      code: 'PATH_TRAVERSAL',
+      message: `Path contains directory traversal (..) which is not allowed: "${truncateForDisplay(filePath, 50)}"`,
+      path: ['file_path'],
+      recovery_hint: 'Use resolved absolute path without ".." segments',
+    };
+  }
+
+  return null;
+}
+
+/**
+ * Validate that a file exists and is accessible
+ * Uses fs.realpath which resolves symlinks and checks existence
+ * Returns resolved path on success, ValidationError on failure
+ */
+export async function validateFileExists(
+  filePath: string
+): Promise<{ resolvedPath: string } | ValidationError> {
+  try {
+    const resolvedPath = await fs.realpath(filePath);
+    return { resolvedPath };
+  } catch (error) {
+    const nodeError = error as NodeJS.ErrnoException;
+    const code = nodeError.code || 'UNKNOWN';
+
+    switch (code) {
+      case 'ENOENT':
+        return {
+          code: 'FILE_NOT_FOUND',
+          message: `File does not exist: "${truncateForDisplay(filePath, 50)}"`,
+          path: ['file_path'],
+          recovery_hint: 'Check the file path and ensure the file exists',
+        };
+      case 'EACCES':
+        return {
+          code: 'PERMISSION_DENIED',
+          message: `Permission denied accessing: "${truncateForDisplay(filePath, 50)}"`,
+          path: ['file_path'],
+          recovery_hint: 'Check file permissions or run with appropriate access',
+        };
+      case 'EPERM':
+        return {
+          code: 'OPERATION_NOT_PERMITTED',
+          message: `Operation not permitted for: "${truncateForDisplay(filePath, 50)}"`,
+          path: ['file_path'],
+          recovery_hint: 'Check file permissions and ownership',
+        };
+      case 'ELOOP':
+        return {
+          code: 'SYMLINK_LOOP',
+          message: `Too many symbolic links in path: "${truncateForDisplay(filePath, 50)}"`,
+          path: ['file_path'],
+          recovery_hint: 'Check for circular symlink references',
+        };
+      default:
+        return {
+          code: 'FILE_ACCESS_ERROR',
+          message: `Cannot access file: "${truncateForDisplay(filePath, 50)}" (${code})`,
+          path: ['file_path'],
+          recovery_hint: 'Check file path and system error details',
+        };
+    }
+  }
 }
 
 /**
