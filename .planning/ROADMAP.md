@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Core Editor Engine** - Implement applyEdits with atomic guarantees
 - [x] **Phase 2: Single-File Tool Wiring** - Wire multi_edit tool to editor engine
-- [ ] **Phase 3: Validation Layer** - Path validation and conflict detection
+- [x] **Phase 3: Validation Layer** - Path validation and conflict detection
 - [ ] **Phase 4: Dry-Run Mode** - Preview changes without writing
 - [ ] **Phase 5: Backup System** - Create .bak files before editing
 - [ ] **Phase 6: Error Response System** - Structured errors with recovery hints
@@ -66,7 +66,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 03-01-PLAN.md - Path validation, duplicate detection, and full validation wiring
+- [x] 03-01-PLAN.md - Path validation, duplicate detection, and full validation wiring
 
 ### Phase 4: Dry-Run Mode
 **Goal**: Users can preview what edits would change without modifying files
@@ -187,7 +187,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 |-------|----------------|--------|-----------|
 | 1. Core Editor Engine | 2/2 | ✓ Complete | 2026-02-05 |
 | 2. Single-File Tool Wiring | 1/1 | ✓ Complete | 2026-02-05 |
-| 3. Validation Layer | 0/1 | Not started | - |
+| 3. Validation Layer | 1/1 | ✓ Complete | 2026-02-05 |
 | 4. Dry-Run Mode | 0/TBD | Not started | - |
 | 5. Backup System | 0/TBD | Not started | - |
 | 6. Error Response System | 0/TBD | Not started | - |
