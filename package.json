@@ -1,0 +1,39 @@
+{
+  "name": "@anthropic-community/eais-mcp-multi-edit",
+  "version": "1.0.0",
+  "description": "MCP server providing atomic multi-edit capabilities for Claude Code",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "mcp-multi-edit": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run build && npm run test"
+  },
+  "keywords": ["mcp", "claude", "multi-edit", "file-editing", "anthropic"],
+  "author": "Pavlo Sidelov <pavlo@sdkfinance.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anthropic-community/eais-mcp-multi-edit"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0",
+    "tsx": "^4.0.0",
+    "vitest": "^1.6.0",
+    "@vitest/coverage-v8": "^1.6.0"
+  }
+}

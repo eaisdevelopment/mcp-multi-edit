@@ -1,0 +1,10 @@
+{
+  "name": "eais-mcp-multi-edit",
+  "description": "MCP server providing atomic multi-edit capabilities - perform multiple find-and-replace operations in single or multiple files atomically",
+  "author": {
+    "name": "Pavlo Sidelov",
+    "email": "pavlo@sdkfinance.com"
+  },
+  "version": "1.0.0",
+  "keywords": ["mcp", "multi-edit", "file-editing", "refactoring"]
+}

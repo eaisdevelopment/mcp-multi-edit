@@ -1,0 +1,6 @@
+{
+  "eais-multi-edit": {
+    "command": "node",
+    "args": ["dist/index.js"]
+  }
+}
