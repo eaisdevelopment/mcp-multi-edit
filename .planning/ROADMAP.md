@@ -12,7 +12,7 @@ This roadmap transforms the existing foundation (types, validation schemas, tool
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Core Editor Engine** - Implement applyEdits with atomic guarantees
+- [x] **Phase 1: Core Editor Engine** - Implement applyEdits with atomic guarantees
 - [ ] **Phase 2: Single-File Tool Wiring** - Wire multi_edit tool to editor engine
 - [ ] **Phase 3: Validation Layer** - Path validation and conflict detection
 - [ ] **Phase 4: Dry-Run Mode** - Preview changes without writing
@@ -39,8 +39,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md - Core applyEdits implementation with TDD (sequential simulation, error handling)
-- [ ] 01-02-PLAN.md - Atomic file I/O (UTF-8 validation, temp-then-rename write)
+- [x] 01-01-PLAN.md - Core applyEdits implementation with TDD (sequential simulation, error handling)
+- [x] 01-02-PLAN.md - Atomic file I/O (UTF-8 validation, temp-then-rename write)
 
 ### Phase 2: Single-File Tool Wiring
 **Goal**: Claude can invoke multi_edit tool and receive structured results
@@ -185,7 +185,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Core Editor Engine | 0/2 | Not started | - |
+| 1. Core Editor Engine | 2/2 | ✓ Complete | 2026-02-05 |
 | 2. Single-File Tool Wiring | 0/TBD | Not started | - |
 | 3. Validation Layer | 0/TBD | Not started | - |
 | 4. Dry-Run Mode | 0/TBD | Not started | - |
