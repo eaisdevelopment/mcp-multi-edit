@@ -85,37 +85,37 @@
 | EDIT-05 | Phase 1 | Pending |
 | EDIT-06 | Phase 1 | Pending |
 | EDIT-07 | Phase 1 | Pending |
-| EDIT-08 | Phase 3 | Pending |
-| EDIT-09 | Phase 3 | Pending |
-| SAFE-01 | Phase 2 | Pending |
-| SAFE-02 | Phase 2 | Pending |
-| SAFE-03 | Phase 2 | Pending |
-| SAFE-04 | Phase 2 | Pending |
+| EDIT-08 | Phase 7 | Pending |
+| EDIT-09 | Phase 7 | Pending |
+| SAFE-01 | Phase 4 | Pending |
+| SAFE-02 | Phase 3 | Pending |
+| SAFE-03 | Phase 3 | Pending |
+| SAFE-04 | Phase 5 | Pending |
 | SAFE-05 | Phase 1 | Pending |
-| ERR-01 | Phase 2 | Pending |
-| ERR-02 | Phase 2 | Pending |
-| ERR-03 | Phase 4 | Pending |
-| ERR-04 | Phase 4 | Pending |
-| ERR-05 | Phase 2 | Pending |
+| ERR-01 | Phase 6 | Pending |
+| ERR-02 | Phase 6 | Pending |
+| ERR-03 | Phase 6 | Pending |
+| ERR-04 | Phase 6 | Pending |
+| ERR-05 | Phase 6 | Pending |
 | MCP-01 | Phase 2 | Pending |
-| MCP-02 | Phase 3 | Pending |
+| MCP-02 | Phase 7 | Pending |
 | MCP-03 | Phase 2 | Pending |
 | MCP-04 | Phase 2 | Pending |
-| TEST-01 | Phase 1 | Pending |
-| TEST-02 | Phase 2 | Pending |
-| TEST-03 | Phase 4 | Pending |
-| TEST-04 | Phase 4 | Pending |
-| TEST-05 | Phase 5 | Pending |
-| PUB-01 | Phase 5 | Pending |
-| PUB-02 | Phase 5 | Pending |
-| PUB-03 | Phase 5 | Pending |
-| PUB-04 | Phase 5 | Pending |
+| TEST-01 | Phase 8 | Pending |
+| TEST-02 | Phase 8 | Pending |
+| TEST-03 | Phase 9 | Pending |
+| TEST-04 | Phase 9 | Pending |
+| TEST-05 | Phase 10 | Pending |
+| PUB-01 | Phase 11 | Pending |
+| PUB-02 | Phase 11 | Pending |
+| PUB-03 | Phase 11 | Pending |
+| PUB-04 | Phase 11 | Pending |
 
 **Coverage:**
 - v1 requirements: 26 total
 - Mapped to phases: 26
-- Unmapped: 0 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-05*
-*Last updated: 2026-02-05 after initial definition*
+*Last updated: 2026-02-05 after roadmap creation*

@@ -1,0 +1,201 @@
+# Roadmap: MCP Multi-Edit Server
+
+## Overview
+
+This roadmap transforms the existing foundation (types, validation schemas, tool schemas) into a production-ready MCP server for atomic multi-file editing. The journey progresses from core editing logic through safety layers, error handling, multi-file support, comprehensive testing, and finally npm publishing. Each phase delivers verifiable capability while maintaining the core value: atomicity - all edits succeed or none apply.
+
+## Phases
+
+**Phase Numbering:**
+- Integer phases (1, 2, 3): Planned milestone work
+- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+
+Decimal phases appear between their surrounding integers in numeric order.
+
+- [ ] **Phase 1: Core Editor Engine** - Implement applyEdits with atomic guarantees
+- [ ] **Phase 2: Single-File Tool Wiring** - Wire multi_edit tool to editor engine
+- [ ] **Phase 3: Validation Layer** - Path validation and conflict detection
+- [ ] **Phase 4: Dry-Run Mode** - Preview changes without writing
+- [ ] **Phase 5: Backup System** - Create .bak files before editing
+- [ ] **Phase 6: Error Response System** - Structured errors with recovery hints
+- [ ] **Phase 7: Multi-File Operations** - Cross-file atomic editing with rollback
+- [ ] **Phase 8: Unit Testing** - Editor and validator test coverage
+- [ ] **Phase 9: Integration Testing** - MCP server and edge case tests
+- [ ] **Phase 10: Coverage Completion** - Achieve 90%+ code coverage
+- [ ] **Phase 11: Publishing** - npm package preparation and release
+
+## Phase Details
+
+### Phase 1: Core Editor Engine
+**Goal**: Users can apply multiple string replacements to a single file with atomic guarantees
+**Depends on**: Nothing (first phase - builds on existing types/schemas)
+**Requirements**: EDIT-01, EDIT-02, EDIT-03, EDIT-04, EDIT-05, EDIT-06, EDIT-07, SAFE-05
+**Success Criteria** (what must be TRUE):
+  1. User can pass file path and edit array to applyEdits function and receive modified content
+  2. Edit operation fails with clear error when old_string is not found in file
+  3. Edit operation fails with clear error when old_string matches multiple locations (unless replace_all is true)
+  4. Edits apply sequentially in array order, with later edits seeing results of earlier edits
+  5. File is written atomically using temp-file-then-rename pattern (no partial states)
+**Plans**: TBD
+
+Plans:
+- [ ] 01-01: TBD
+
+### Phase 2: Single-File Tool Wiring
+**Goal**: Claude can invoke multi_edit tool and receive structured results
+**Depends on**: Phase 1
+**Requirements**: MCP-01, MCP-03, MCP-04
+**Success Criteria** (what must be TRUE):
+  1. Claude client can list available tools and see multi_edit with correct schema
+  2. Claude client can call multi_edit and receive structured JSON response
+  3. Tool returns success=true with edits_applied count when all edits succeed
+**Plans**: TBD
+
+Plans:
+- [ ] 02-01: TBD
+
+### Phase 3: Validation Layer
+**Goal**: Invalid inputs are rejected before any file operations occur
+**Depends on**: Phase 2
+**Requirements**: SAFE-02, SAFE-03
+**Success Criteria** (what must be TRUE):
+  1. Tool rejects relative paths with clear error message explaining absolute path requirement
+  2. Tool detects and rejects overlapping edits that would conflict with each other
+  3. Validation errors return before any file read or write operations
+**Plans**: TBD
+
+Plans:
+- [ ] 03-01: TBD
+
+### Phase 4: Dry-Run Mode
+**Goal**: Users can preview what edits would change without modifying files
+**Depends on**: Phase 3
+**Requirements**: SAFE-01
+**Success Criteria** (what must be TRUE):
+  1. User can set dry_run=true and see what would change without file modification
+  2. Dry-run returns same success/failure status as real run would
+  3. Original file content is unchanged after dry-run operation
+**Plans**: TBD
+
+Plans:
+- [ ] 04-01: TBD
+
+### Phase 5: Backup System
+**Goal**: Original file content is preserved before edits are applied
+**Depends on**: Phase 4
+**Requirements**: SAFE-04
+**Success Criteria** (what must be TRUE):
+  1. A .bak file is created with original content before applying edits
+  2. Backup file can be used to manually restore original content if needed
+  3. Backup creation failure prevents edit operation from proceeding
+**Plans**: TBD
+
+Plans:
+- [ ] 05-01: TBD
+
+### Phase 6: Error Response System
+**Goal**: All failures return structured, actionable error information for LLM recovery
+**Depends on**: Phase 5
+**Requirements**: ERR-01, ERR-02, ERR-03, ERR-04, ERR-05
+**Success Criteria** (what must be TRUE):
+  1. All failure cases return isError: true in MCP response
+  2. Error responses follow consistent JSON schema with message and details
+  3. Error messages include recovery_hint field guiding LLM to retry correctly
+  4. Match failures include surrounding context showing where in file the problem is
+  5. Stack traces are never exposed in error responses
+**Plans**: TBD
+
+Plans:
+- [ ] 06-01: TBD
+
+### Phase 7: Multi-File Operations
+**Goal**: Users can edit multiple files atomically with rollback on failure
+**Depends on**: Phase 6
+**Requirements**: EDIT-08, EDIT-09, MCP-02
+**Success Criteria** (what must be TRUE):
+  1. Claude client can call multi_edit_files with array of file specifications
+  2. All files are edited successfully, or all remain unchanged (cross-file atomicity)
+  3. If any file edit fails, previously edited files are rolled back to original state
+  4. Result includes per-file status showing which files succeeded/failed
+**Plans**: TBD
+
+Plans:
+- [ ] 07-01: TBD
+
+### Phase 8: Unit Testing
+**Goal**: Core logic is verified through isolated unit tests
+**Depends on**: Phase 7
+**Requirements**: TEST-01, TEST-02
+**Success Criteria** (what must be TRUE):
+  1. Unit tests verify editor.ts string replacement logic in isolation
+  2. Unit tests verify validator.ts Zod schemas accept valid input and reject invalid input
+  3. Tests use mocked filesystem (memfs) for speed and isolation
+  4. All unit tests pass on CI
+**Plans**: TBD
+
+Plans:
+- [ ] 08-01: TBD
+
+### Phase 9: Integration Testing
+**Goal**: Full MCP server workflow and edge cases are verified
+**Depends on**: Phase 8
+**Requirements**: TEST-03, TEST-04
+**Success Criteria** (what must be TRUE):
+  1. Integration tests verify complete MCP request/response cycle
+  2. Edge cases are tested: unicode content, large files, empty edits array
+  3. Tests verify actual file operations on real filesystem (temp directories)
+  4. All integration tests pass on CI
+**Plans**: TBD
+
+Plans:
+- [ ] 09-01: TBD
+
+### Phase 10: Coverage Completion
+**Goal**: Test suite achieves production-quality coverage threshold
+**Depends on**: Phase 9
+**Requirements**: TEST-05
+**Success Criteria** (what must be TRUE):
+  1. Code coverage report shows 90%+ line coverage
+  2. Coverage gaps are documented with rationale (e.g., unreachable error branches)
+  3. CI enforces coverage threshold - builds fail below 90%
+**Plans**: TBD
+
+Plans:
+- [ ] 10-01: TBD
+
+### Phase 11: Publishing
+**Goal**: Package is ready for npm public registry publication
+**Depends on**: Phase 10
+**Requirements**: PUB-01, PUB-02, PUB-03, PUB-04
+**Success Criteria** (what must be TRUE):
+  1. Package is named @anthropic-community/eais-mcp-multi-edit in package.json
+  2. README includes installation instructions and usage examples for Claude Code
+  3. MIT license file is present in repository
+  4. package.json has proper metadata: bin entry, main, types, repository, keywords
+**Plans**: TBD
+
+Plans:
+- [ ] 11-01: TBD
+
+## Progress
+
+**Execution Order:**
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 11
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 1. Core Editor Engine | 0/TBD | Not started | - |
+| 2. Single-File Tool Wiring | 0/TBD | Not started | - |
+| 3. Validation Layer | 0/TBD | Not started | - |
+| 4. Dry-Run Mode | 0/TBD | Not started | - |
+| 5. Backup System | 0/TBD | Not started | - |
+| 6. Error Response System | 0/TBD | Not started | - |
+| 7. Multi-File Operations | 0/TBD | Not started | - |
+| 8. Unit Testing | 0/TBD | Not started | - |
+| 9. Integration Testing | 0/TBD | Not started | - |
+| 10. Coverage Completion | 0/TBD | Not started | - |
+| 11. Publishing | 0/TBD | Not started | - |
+
+---
+*Roadmap created: 2026-02-05*
+*Depth: Comprehensive (11 phases)*
