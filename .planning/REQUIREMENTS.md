@@ -27,11 +27,11 @@
 
 ### Error Handling
 
-- [ ] **ERR-01**: Return isError: true for all failure cases
-- [ ] **ERR-02**: Return structured JSON with consistent schema
-- [ ] **ERR-03**: Include recovery_hint to help LLM retry
-- [ ] **ERR-04**: Include match context (surrounding text) in error messages
-- [ ] **ERR-05**: Never expose stack traces in responses
+- [x] **ERR-01**: Return isError: true for all failure cases
+- [x] **ERR-02**: Return structured JSON with consistent schema
+- [x] **ERR-03**: Include recovery_hint to help LLM retry
+- [x] **ERR-04**: Include match context (surrounding text) in error messages
+- [x] **ERR-05**: Never expose stack traces in responses
 
 ### MCP Integration
 
@@ -92,11 +92,11 @@
 | SAFE-03 | Phase 3 | Complete |
 | SAFE-04 | Phase 5 | Complete |
 | SAFE-05 | Phase 1 | Complete |
-| ERR-01 | Phase 6 | Pending |
-| ERR-02 | Phase 6 | Pending |
-| ERR-03 | Phase 6 | Pending |
-| ERR-04 | Phase 6 | Pending |
-| ERR-05 | Phase 6 | Pending |
+| ERR-01 | Phase 6 | Complete |
+| ERR-02 | Phase 6 | Complete |
+| ERR-03 | Phase 6 | Complete |
+| ERR-04 | Phase 6 | Complete |
+| ERR-05 | Phase 6 | Complete |
 | MCP-01 | Phase 2 | Complete |
 | MCP-02 | Phase 7 | Pending |
 | MCP-03 | Phase 2 | Complete |
@@ -118,4 +118,4 @@
 
 ---
 *Requirements defined: 2026-02-05*
-*Last updated: 2026-02-06 after Phase 5 completion*
+*Last updated: 2026-02-06 after Phase 6 completion*

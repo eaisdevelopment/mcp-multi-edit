@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Validation Layer** - Path validation and conflict detection
 - [x] **Phase 4: Dry-Run Mode** - Preview changes without writing
 - [x] **Phase 5: Backup System** - Create .bak files before editing
-- [ ] **Phase 6: Error Response System** - Structured errors with recovery hints
+- [x] **Phase 6: Error Response System** - Structured errors with recovery hints
 - [ ] **Phase 7: Multi-File Operations** - Cross-file atomic editing with rollback
 - [ ] **Phase 8: Unit Testing** - Editor and validator test coverage
 - [ ] **Phase 9: Integration Testing** - MCP server and edge case tests
@@ -107,8 +107,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 06-01-PLAN.md -- Error types, errors.ts module, and reporter.ts refactor
-- [ ] 06-02-PLAN.md -- Retrofit all handler error paths to use ErrorEnvelope
+- [x] 06-01-PLAN.md -- Error types, errors.ts module, and reporter.ts refactor
+- [x] 06-02-PLAN.md -- Retrofit all handler error paths to use ErrorEnvelope
 
 ### Phase 7: Multi-File Operations
 **Goal**: Users can edit multiple files atomically with rollback on failure
@@ -191,7 +191,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 3. Validation Layer | 1/1 | ✓ Complete | 2026-02-05 |
 | 4. Dry-Run Mode | 1/1 | ✓ Complete | 2026-02-06 |
 | 5. Backup System | 1/1 | ✓ Complete | 2026-02-06 |
-| 6. Error Response System | 0/TBD | Not started | - |
+| 6. Error Response System | 2/2 | ✓ Complete | 2026-02-06 |
 | 7. Multi-File Operations | 0/TBD | Not started | - |
 | 8. Unit Testing | 0/TBD | Not started | - |
 | 9. Integration Testing | 0/TBD | Not started | - |
