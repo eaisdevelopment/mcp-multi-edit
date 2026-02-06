@@ -12,6 +12,8 @@ export interface SuccessResponse {
   file_path: string;
   edits_applied: number;
   dry_run: boolean;
+  message?: string;           // Dry-run messaging
+  diff_preview?: string;      // Line-by-line diff for dry-run
   edits: Array<{
     old_string: string;
     matched: boolean;
@@ -202,7 +204,8 @@ export function formatMultiEditResponse(
   result: MultiEditResult,
   includeContent: boolean,
   totalEdits: number,
-  fileContent?: string
+  fileContent?: string,
+  originalContent?: string  // For dry-run diff generation
 ): SuccessResponse | ErrorResponse {
   if (result.success) {
     const response: SuccessResponse = {
@@ -216,6 +219,19 @@ export function formatMultiEditResponse(
         occurrences_replaced: r.replaced,
       })),
     };
+
+    // Add dry-run specific fields
+    if (result.dry_run) {
+      response.message = 'DRY RUN - No changes made to file';
+      // Generate diff preview if we have both original and final content
+      if (originalContent && result.final_content) {
+        response.diff_preview = generateDiffPreview(
+          originalContent,
+          result.final_content,
+          result.file_path
+        );
+      }
+    }
 
     if (result.backup_path) {
       response.backup_path = result.backup_path;
@@ -259,13 +275,19 @@ export function formatMultiEditResponse(
 
 /**
  * Generate diff preview for dry run
+ * Shows line-by-line changes with line numbers for easier reference
  */
 export function generateDiffPreview(
   originalContent: string,
   newContent: string,
   filePath: string
 ): string {
-  // Simple diff - show changed lines
+  // Handle no-change case
+  if (originalContent === newContent) {
+    return 'No changes';
+  }
+
+  // Simple diff - show changed lines with line numbers
   const originalLines = originalContent.split('\n');
   const newLines = newContent.split('\n');
 
@@ -273,18 +295,19 @@ export function generateDiffPreview(
   changes.push(`--- ${filePath} (original)`);
   changes.push(`+++ ${filePath} (modified)`);
 
-  // Simple line-by-line comparison
+  // Simple line-by-line comparison with line numbers
   const maxLines = Math.max(originalLines.length, newLines.length);
   for (let i = 0; i < maxLines; i++) {
     const origLine = originalLines[i];
     const newLine = newLines[i];
+    const lineNum = i + 1; // 1-indexed line numbers
 
     if (origLine !== newLine) {
       if (origLine !== undefined) {
-        changes.push(`- ${origLine}`);
+        changes.push(`L${lineNum}: - ${origLine}`);
       }
       if (newLine !== undefined) {
-        changes.push(`+ ${newLine}`);
+        changes.push(`L${lineNum}: + ${newLine}`);
       }
     }
   }
