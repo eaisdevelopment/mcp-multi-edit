@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-02-05)
 
 ## Current Position
 
-Phase: 5 of 11 (Backup System)
+Phase: 6 of 11 (Error Response System)
 Plan: 1 of 1 in current phase
-Status: Phase complete
-Last activity: 2026-02-06 - Completed Phase 5 (Backup System)
+Status: In progress
+Last activity: 2026-02-06 - Completed 06-01-PLAN.md
 
-Progress: [#####      ] ~45%
+Progress: [######     ] ~55%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 3.2 min
-- Total execution time: 0.32 hours
+- Total plans completed: 7
+- Average duration: 3.1 min
+- Total execution time: 0.37 hours
 
 **By Phase:**
 
@@ -32,9 +32,10 @@ Progress: [#####      ] ~45%
 | 03-validation-layer | 1 | 4 min | 4 min |
 | 04-dry-run-mode | 1 | 3 min | 3 min |
 | 05-backup-system | 1 | 4 min | 4 min |
+| 06-error-response-system | 1 | 3 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (2 min), 02-01 (3 min), 03-01 (4 min), 04-01 (3 min), 05-01 (4 min)
+- Last 5 plans: 02-01 (3 min), 03-01 (4 min), 04-01 (3 min), 05-01 (4 min), 06-01 (3 min)
 - Trend: Stable velocity
 
 *Updated after each plan completion*
@@ -66,6 +67,10 @@ Recent decisions affecting current work:
 | 2026-02-06 | Default backup=true (opt-out model) | Safety-first: backups created unless explicitly disabled | 05-01 |
 | 2026-02-06 | Backup before edits and before dry-run | Safety net exists before any mutation attempt | 05-01 |
 | 2026-02-06 | backup_path on all result paths | Success, error, and dry-run responses all include backup_path | 05-01 |
+| 2026-02-06 | ErrorEnvelope as canonical error shape | Consistent structure for LLM parsing and retry logic | 06-01 |
+| 2026-02-06 | Retryable classification for error codes | Validation/match errors retryable, FS errors not | 06-01 |
+| 2026-02-06 | Success path format unchanged | Only error path uses ErrorEnvelope, success keeps current format | 06-01 |
+| 2026-02-06 | Optional edits param for edit_status | Backward-compatible addition to formatMultiEditResponse | 06-01 |
 
 ### Pending Todos
 
@@ -78,5 +83,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-06
-Stopped at: Phase 5 complete, verified
+Stopped at: Completed 06-01-PLAN.md
 Resume file: None
