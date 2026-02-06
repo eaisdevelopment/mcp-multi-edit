@@ -125,3 +125,66 @@ export interface MultiEditFilesResult {
   /** Whether this was a dry run */
   dry_run: boolean;
 }
+
+/** Error codes for the error taxonomy */
+export type ErrorCode =
+  // Validation errors (retryable: true)
+  | 'VALIDATION_FAILED'
+  | 'RELATIVE_PATH'
+  | 'PATH_TRAVERSAL'
+  | 'EMPTY_EDITS'
+  | 'EMPTY_OLD_STRING'
+  | 'DUPLICATE_OLD_STRING'
+  // Match errors (retryable: true)
+  | 'MATCH_NOT_FOUND'
+  | 'AMBIGUOUS_MATCH'
+  // File system errors (retryable: false)
+  | 'FILE_NOT_FOUND'
+  | 'PERMISSION_DENIED'
+  | 'INVALID_ENCODING'
+  | 'DISK_FULL'
+  | 'READ_ONLY_FS'
+  | 'SYMLINK_LOOP'
+  | 'BACKUP_FAILED'
+  | 'WRITE_FAILED'
+  // Other (retryable: false)
+  | 'UNKNOWN_ERROR'
+  | 'NOT_IMPLEMENTED'
+  | 'UNKNOWN_TOOL';
+
+/** Per-edit status entry (only for failed/skipped edits; success = absence) */
+export interface EditStatusEntry {
+  edit_index: number;
+  status: 'failed' | 'skipped';
+  error_code?: ErrorCode;
+  message?: string;
+  old_string_preview?: string;  // First 40 chars for correlation
+}
+
+/** Match location with surrounding context */
+export interface MatchLocation {
+  line: number;
+  snippet: string;
+}
+
+/** Context information attached to error responses */
+export interface ErrorContext {
+  /** Raw surrounding content (10-15 lines, no line numbers) */
+  snippet?: string;
+  /** All match locations for ambiguous-match errors */
+  match_locations?: MatchLocation[];
+}
+
+/** Canonical error envelope - all errors produce this shape */
+export interface ErrorEnvelope {
+  success: false;
+  error_code: ErrorCode;
+  message: string;
+  retryable: boolean;
+  file_path?: string;
+  edit_index?: number;
+  recovery_hints: string[];
+  context?: ErrorContext;
+  edit_status?: EditStatusEntry[];
+  backup_path?: string;
+}
