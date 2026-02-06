@@ -13,6 +13,7 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 
 import { handleMultiEdit } from './tools/multi-edit.js';
+import { createErrorEnvelope, classifyError } from './core/errors.js';
 // TODO: Import multi_edit_files handler when implemented
 // import { handleMultiEditFiles } from './tools/multi-edit-files.js';
 
@@ -143,35 +144,32 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     if (name === 'multi_edit_files') {
       // TODO: Implement
+      const envelope = createErrorEnvelope({
+        error_code: 'NOT_IMPLEMENTED',
+        message: 'multi_edit_files is not implemented yet',
+      });
       return {
-        content: [
-          {
-            type: 'text',
-            text: JSON.stringify({ error: 'Not implemented yet' }),
-          },
-        ],
+        content: [{ type: 'text', text: JSON.stringify(envelope, null, 2) }],
         isError: true,
       };
     }
 
+    const unknownEnvelope = createErrorEnvelope({
+      error_code: 'UNKNOWN_TOOL',
+      message: `Unknown tool: ${name}`,
+    });
     return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify({ error: `Unknown tool: ${name}` }),
-        },
-      ],
+      content: [{ type: 'text', text: JSON.stringify(unknownEnvelope, null, 2) }],
       isError: true,
     };
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
+    const classified = classifyError(error);
+    const envelope = createErrorEnvelope({
+      error_code: classified.error_code,
+      message: classified.message,
+    });
     return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify({ error: message }),
-        },
-      ],
+      content: [{ type: 'text', text: JSON.stringify(envelope, null, 2) }],
       isError: true,
     };
   }
