@@ -2,7 +2,9 @@
  * Result formatting and reporting
  */
 
-import type { MultiEditResult, MultiEditFilesResult, EditResult } from '../types/index.js';
+import type { MultiEditResult, MultiEditFilesResult, EditResult, ErrorEnvelope, ErrorCode, ErrorContext } from '../types/index.js';
+import { createErrorEnvelope, extractFileContext, extractMatchLocations, buildEditStatus } from './errors.js';
+import { findAllMatchPositions } from './editor.js';
 
 /**
  * Response types for MCP formatting
@@ -21,18 +23,6 @@ export interface SuccessResponse {
   }>;
   backup_path?: string;
   final_content?: string;
-}
-
-export interface ErrorResponse {
-  success: false;
-  file_path: string;
-  error: string;
-  failed_edit_index?: number;
-  edits_applied: 0;
-  message: string;
-  recovery_hint: string;
-  context_snippet?: string;
-  backup_path?: string;
 }
 
 /**
@@ -132,69 +122,28 @@ export function truncateForDisplay(str: string, maxLen: number): string {
 }
 
 /**
- * Get recovery hint based on error message
+ * Classify error code from an error message string
  */
-export function getRecoveryHint(error: string): string {
-  const lowerError = error.toLowerCase();
+function classifyErrorFromMessage(errorMessage: string): ErrorCode {
+  const lower = errorMessage.toLowerCase();
 
-  if (lowerError.includes('not found')) {
-    return 'Read the file to see current content, then retry with correct old_string.';
+  if (lower.includes('not found')) {
+    return 'MATCH_NOT_FOUND';
   }
-  if (lowerError.includes('permission denied') || lowerError.includes('eacces')) {
-    return 'Check file permissions.';
+  if (lower.includes('matches at lines') || lower.includes('occurrences found')) {
+    return 'AMBIGUOUS_MATCH';
   }
-  if (lowerError.includes('matches at lines') || lowerError.includes('multiple matches') || lowerError.includes('occurrences found')) {
-    return 'Use replace_all: true or make old_string more specific.';
+  if (lower.includes('permission denied') || lower.includes('eacces')) {
+    return 'PERMISSION_DENIED';
   }
-  if (lowerError.includes('utf-8') || lowerError.includes('utf8') || lowerError.includes('encoding')) {
-    return 'Ensure file uses UTF-8 encoding.';
+  if (lower.includes('utf-8') || lower.includes('encoding')) {
+    return 'INVALID_ENCODING';
   }
-
-  return 'Check error details and retry.';
-}
-
-/**
- * Extract context snippet around expected match location
- * Returns ~50 chars around where the match was expected
- */
-export function extractContextSnippet(
-  fileContent: string,
-  searchString: string,
-  radius: number = 25
-): string | undefined {
-  if (!fileContent || fileContent.length === 0) {
-    return undefined;
+  if (lower.includes('backup failed')) {
+    return 'BACKUP_FAILED';
   }
 
-  // Try to find a partial match using first ~20 chars of search string
-  const searchPrefix = searchString.slice(0, Math.min(20, searchString.length));
-  let matchIndex = fileContent.indexOf(searchPrefix);
-
-  // If no exact prefix match, try case-insensitive
-  if (matchIndex === -1) {
-    matchIndex = fileContent.toLowerCase().indexOf(searchPrefix.toLowerCase());
-  }
-
-  // If still no match, try with shorter prefix
-  if (matchIndex === -1 && searchPrefix.length > 5) {
-    const shorterPrefix = searchPrefix.slice(0, 5);
-    matchIndex = fileContent.indexOf(shorterPrefix);
-  }
-
-  if (matchIndex !== -1) {
-    const start = Math.max(0, matchIndex - radius);
-    const end = Math.min(fileContent.length, matchIndex + radius);
-    const before = fileContent.slice(start, matchIndex);
-    const after = fileContent.slice(matchIndex, end);
-    const prefix = start > 0 ? '...' : '';
-    const suffix = end < fileContent.length ? '...' : '';
-    return `${prefix}${before}[HERE]${after}${suffix}`;
-  }
-
-  // No partial match found, return start of file
-  const previewLen = Math.min(50, fileContent.length);
-  const suffix = fileContent.length > previewLen ? '...' : '';
-  return `File starts with: ${fileContent.slice(0, previewLen)}${suffix}`;
+  return 'UNKNOWN_ERROR';
 }
 
 /**
@@ -206,8 +155,9 @@ export function formatMultiEditResponse(
   includeContent: boolean,
   totalEdits: number,
   fileContent?: string,
-  originalContent?: string  // For dry-run diff generation
-): SuccessResponse | ErrorResponse {
+  originalContent?: string,  // For dry-run diff generation
+  edits?: Array<{ old_string: string }>
+): SuccessResponse | ErrorEnvelope {
   if (result.success) {
     const response: SuccessResponse = {
       success: true,
@@ -246,37 +196,46 @@ export function formatMultiEditResponse(
     return response;
   }
 
-  // Error response
+  // Error response - produce ErrorEnvelope
   const failedIndex = result.failed_edit_index ?? 0;
-  const errorMessage = `Edit ${failedIndex + 1} of ${totalEdits} failed: ${result.error || 'Unknown error'}`;
+  const rawError = result.error || 'Unknown error';
+  const errorMessage = `Edit ${failedIndex + 1} of ${totalEdits} failed: ${rawError}`;
+  const errorCode = classifyErrorFromMessage(rawError);
 
-  const response: ErrorResponse = {
-    success: false,
-    file_path: result.file_path,
-    error: errorMessage,
-    failed_edit_index: result.failed_edit_index,
-    edits_applied: 0,
-    message: 'Operation failed. No changes applied - file unchanged.',
-    recovery_hint: getRecoveryHint(result.error || ''),
-  };
+  // Build context based on error type
+  let context: ErrorContext | undefined;
 
-  // Add context snippet for match errors
-  if (fileContent && result.error && result.error.toLowerCase().includes('not found')) {
+  if (errorCode === 'MATCH_NOT_FOUND' && fileContent) {
     const failedEdit = result.results[failedIndex];
     if (failedEdit) {
-      const snippet = extractContextSnippet(fileContent, failedEdit.old_string);
-      if (snippet) {
-        response.context_snippet = snippet;
+      context = extractFileContext(fileContent, failedEdit.old_string);
+    }
+  } else if (errorCode === 'AMBIGUOUS_MATCH' && fileContent) {
+    const failedEdit = result.results[failedIndex];
+    if (failedEdit) {
+      // Re-find match positions using editor's findAllMatchPositions
+      const positions = findAllMatchPositions(fileContent, failedEdit.old_string);
+      if (positions.length > 0) {
+        context = extractMatchLocations(fileContent, failedEdit.old_string, positions);
       }
     }
   }
 
-  // Include backup_path when backup succeeded but edit failed
-  if (result.backup_path) {
-    response.backup_path = result.backup_path;
+  // Build per-edit status when original edits array is provided
+  let editStatus = undefined;
+  if (edits && edits.length > 0) {
+    editStatus = buildEditStatus(edits, failedIndex, errorCode, rawError);
   }
 
-  return response;
+  return createErrorEnvelope({
+    error_code: errorCode,
+    message: errorMessage,
+    file_path: result.file_path,
+    edit_index: failedIndex,
+    context,
+    edit_status: editStatus,
+    backup_path: result.backup_path,
+  });
 }
 
 /**
