@@ -67,7 +67,7 @@ describe('validateMultiEditInput', () => {
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.dry_run).toBe(false);
-      expect(result.data.create_backup).toBe(false);
+      expect(result.data.backup).toBe(true);
       expect(result.data.edits[0].replace_all).toBe(false);
     }
   });

@@ -228,12 +228,17 @@ describe('applyEdits file I/O', () => {
     return tempPath;
   }
 
-  // Cleanup helper
+  // Cleanup helper - also removes .bak backup files
   async function cleanupFile(filePath: string): Promise<void> {
     try {
       await fs.unlink(filePath);
     } catch {
       // Ignore if already deleted
+    }
+    try {
+      await fs.unlink(`${filePath}.bak`);
+    } catch {
+      // Ignore if no backup file
     }
   }
 

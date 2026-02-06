@@ -32,6 +32,7 @@ export interface ErrorResponse {
   message: string;
   recovery_hint: string;
   context_snippet?: string;
+  backup_path?: string;
 }
 
 /**
@@ -268,6 +269,11 @@ export function formatMultiEditResponse(
         response.context_snippet = snippet;
       }
     }
+  }
+
+  // Include backup_path when backup succeeded but edit failed
+  if (result.backup_path) {
+    response.backup_path = result.backup_path;
   }
 
   return response;

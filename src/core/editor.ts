@@ -277,6 +277,49 @@ export function formatFileError(error: unknown, filePath: string): string {
 }
 
 /**
+ * Create a backup (.bak) file preserving original content and permissions
+ *
+ * @param filePath - Absolute path to the original file
+ * @param content - Original file content to back up
+ * @returns Path to the backup file
+ * @throws Error if stat, write, or chmod fails
+ */
+export async function createBackup(
+  filePath: string,
+  content: string
+): Promise<string> {
+  const backupPath = `${filePath}.bak`;
+  const stats = await fs.stat(filePath);
+  await fs.writeFile(backupPath, content, 'utf8');
+  await fs.chmod(backupPath, stats.mode & 0o7777);
+  return backupPath;
+}
+
+/**
+ * Format backup-specific errors into user-friendly messages
+ *
+ * @param error - The error that occurred during backup
+ * @param backupPath - Path to the backup file that failed
+ * @returns User-friendly error message
+ */
+export function formatBackupError(error: unknown, backupPath: string): string {
+  if (error instanceof Error) {
+    const nodeError = error as NodeJS.ErrnoException;
+    if (nodeError.code === 'EACCES' || nodeError.code === 'EPERM') {
+      return `Backup failed: Permission denied on ${backupPath}`;
+    }
+    if (nodeError.code === 'ENOSPC') {
+      return `Backup failed: No space left on device for ${backupPath}`;
+    }
+    if (nodeError.code === 'EROFS') {
+      return `Backup failed: Read-only file system for ${backupPath}`;
+    }
+    return `Backup failed: ${error.message} on ${backupPath}`;
+  }
+  return `Backup failed: Unknown error on ${backupPath}`;
+}
+
+/**
  * Apply multiple edits to a file atomically
  *
  * @param filePath - Absolute path to the file
@@ -306,30 +349,37 @@ export async function applyEdits(
     };
   }
 
-  // 2. Apply edits using in-memory function
-  const result = applyEditsToContent(filePath, content, edits, dryRun);
-
-  // 3. If edits failed or dry run, return without writing
-  if (!result.success || dryRun) {
-    return result;
-  }
-
-  // 4. Create backup if requested
+  // 2. Create backup BEFORE any edits (if requested)
+  let backupPath: string | undefined;
   if (backup) {
     try {
-      const backupPath = `${filePath}.bak`;
-      await fs.writeFile(backupPath, content, 'utf8');
-      result.backup_path = backupPath;
+      backupPath = await createBackup(filePath, content);
     } catch (error) {
       return {
-        ...result,
         success: false,
-        error: formatFileError(error, `${filePath}.bak`),
+        file_path: filePath,
+        edits_applied: 0,
+        results: [],
+        error: formatBackupError(error, `${filePath}.bak`),
+        dry_run: dryRun,
       };
     }
   }
 
-  // 5. Write result atomically
+  // 3. Apply edits in memory
+  const result = applyEditsToContent(filePath, content, edits, dryRun);
+
+  // 4. Attach backup_path to result (success OR failure)
+  if (backupPath) {
+    result.backup_path = backupPath;
+  }
+
+  // 5. If edits failed or dry run, return (backup already created, path attached)
+  if (!result.success || dryRun) {
+    return result;
+  }
+
+  // 6. Write result atomically
   try {
     await atomicWrite(filePath, result.final_content!);
   } catch (error) {
