@@ -76,10 +76,10 @@ Plans:
   1. User can set dry_run=true and see what would change without file modification
   2. Dry-run returns same success/failure status as real run would
   3. Original file content is unchanged after dry-run operation
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md — Enhance dry-run response with DRY RUN label and diff preview
 
 ### Phase 5: Backup System
 **Goal**: Original file content is preserved before edits are applied
@@ -188,7 +188,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 1. Core Editor Engine | 2/2 | ✓ Complete | 2026-02-05 |
 | 2. Single-File Tool Wiring | 1/1 | ✓ Complete | 2026-02-05 |
 | 3. Validation Layer | 1/1 | ✓ Complete | 2026-02-05 |
-| 4. Dry-Run Mode | 0/TBD | Not started | - |
+| 4. Dry-Run Mode | 0/1 | Not started | - |
 | 5. Backup System | 0/TBD | Not started | - |
 | 6. Error Response System | 0/TBD | Not started | - |
 | 7. Multi-File Operations | 0/TBD | Not started | - |
