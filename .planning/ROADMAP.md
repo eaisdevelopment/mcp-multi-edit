@@ -119,10 +119,11 @@ Plans:
   2. All files are edited successfully, or all remain unchanged (cross-file atomicity)
   3. If any file edit fails, previously edited files are rolled back to original state
   4. Result includes per-file status showing which files succeeded/failed
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 07-01: TBD
+- [ ] 07-01-PLAN.md -- Extend types and build multi-file validation pipeline
+- [ ] 07-02-PLAN.md -- Multi-file handler with 3-phase pipeline, rollback, and wiring
 
 ### Phase 8: Unit Testing
 **Goal**: Core logic is verified through isolated unit tests
