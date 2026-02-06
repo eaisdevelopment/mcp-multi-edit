@@ -22,7 +22,7 @@
 - [x] **SAFE-01**: Dry-run mode previews changes without writing to disk
 - [ ] **SAFE-02**: File paths must be absolute (reject relative paths)
 - [ ] **SAFE-03**: Detect overlapping edits that would conflict
-- [ ] **SAFE-04**: Create backup file (.bak) before applying edits
+- [x] **SAFE-04**: Create backup file (.bak) before applying edits
 - [ ] **SAFE-05**: Use atomic write pattern (temp file + rename)
 
 ### Error Handling
@@ -90,7 +90,7 @@
 | SAFE-01 | Phase 4 | Complete |
 | SAFE-02 | Phase 3 | Complete |
 | SAFE-03 | Phase 3 | Complete |
-| SAFE-04 | Phase 5 | Pending |
+| SAFE-04 | Phase 5 | Complete |
 | SAFE-05 | Phase 1 | Complete |
 | ERR-01 | Phase 6 | Pending |
 | ERR-02 | Phase 6 | Pending |
@@ -118,4 +118,4 @@
 
 ---
 *Requirements defined: 2026-02-05*
-*Last updated: 2026-02-06 after Phase 4 completion*
+*Last updated: 2026-02-06 after Phase 5 completion*

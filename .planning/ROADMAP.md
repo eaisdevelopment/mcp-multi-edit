@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Single-File Tool Wiring** - Wire multi_edit tool to editor engine
 - [x] **Phase 3: Validation Layer** - Path validation and conflict detection
 - [x] **Phase 4: Dry-Run Mode** - Preview changes without writing
-- [ ] **Phase 5: Backup System** - Create .bak files before editing
+- [x] **Phase 5: Backup System** - Create .bak files before editing
 - [ ] **Phase 6: Error Response System** - Structured errors with recovery hints
 - [ ] **Phase 7: Multi-File Operations** - Cross-file atomic editing with rollback
 - [ ] **Phase 8: Unit Testing** - Editor and validator test coverage
@@ -92,7 +92,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 05-01-PLAN.md — Rename create_backup to backup, implement backup-before-edits with permission preservation
+- [x] 05-01-PLAN.md — Rename create_backup to backup, implement backup-before-edits with permission preservation
 
 ### Phase 6: Error Response System
 **Goal**: All failures return structured, actionable error information for LLM recovery
@@ -189,7 +189,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 2. Single-File Tool Wiring | 1/1 | ✓ Complete | 2026-02-05 |
 | 3. Validation Layer | 1/1 | ✓ Complete | 2026-02-05 |
 | 4. Dry-Run Mode | 1/1 | ✓ Complete | 2026-02-06 |
-| 5. Backup System | 0/1 | Not started | - |
+| 5. Backup System | 1/1 | ✓ Complete | 2026-02-06 |
 | 6. Error Response System | 0/TBD | Not started | - |
 | 7. Multi-File Operations | 0/TBD | Not started | - |
 | 8. Unit Testing | 0/TBD | Not started | - |
