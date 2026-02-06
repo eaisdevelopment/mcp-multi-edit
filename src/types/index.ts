@@ -47,8 +47,8 @@ export interface MultiEditInput {
   edits: EditOperation[];
   /** Preview changes without applying (default: false) */
   dry_run?: boolean;
-  /** Create backup file before editing (default: false) */
-  create_backup?: boolean;
+  /** Create backup before editing (default: true) */
+  backup?: boolean;
   /** Include final file content in response (default: false) */
   include_content?: boolean;
 }
@@ -64,8 +64,8 @@ export interface MultiEditFilesInput {
   }>;
   /** Preview changes without applying (default: false) */
   dry_run?: boolean;
-  /** Create backup files before editing (default: false) */
-  create_backup?: boolean;
+  /** Create backup files before editing (default: true) */
+  backup?: boolean;
 }
 
 /**

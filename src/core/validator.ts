@@ -24,7 +24,7 @@ export const MultiEditInputSchema = z.object({
   file_path: z.string().min(1, 'file_path is required'),
   edits: z.array(EditOperationSchema).min(1, 'At least one edit is required'),
   dry_run: z.boolean().optional().default(false),
-  create_backup: z.boolean().optional().default(false),
+  backup: z.boolean().optional().default(true),
   include_content: z.boolean().optional().default(false),
 });
 
@@ -39,7 +39,7 @@ export const MultiEditFilesInputSchema = z.object({
     })
   ).min(1, 'At least one file is required'),
   dry_run: z.boolean().optional().default(false),
-  create_backup: z.boolean().optional().default(false),
+  backup: z.boolean().optional().default(true),
 });
 
 /**

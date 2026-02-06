@@ -46,7 +46,7 @@ export async function handleMultiEdit(args: unknown): Promise<{
       input.file_path,
       input.edits,
       input.dry_run,
-      input.create_backup
+      input.backup
     );
 
     const response = formatMultiEditResponse(

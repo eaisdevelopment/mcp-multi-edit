@@ -282,14 +282,14 @@ export function formatFileError(error: unknown, filePath: string): string {
  * @param filePath - Absolute path to the file
  * @param edits - Array of edit operations
  * @param dryRun - If true, preview changes without applying
- * @param createBackup - If true, create .bak file before editing
+ * @param backup - If true, create .bak file before editing (default: true)
  * @returns Result of the multi-edit operation
  */
 export async function applyEdits(
   filePath: string,
   edits: EditOperation[],
   dryRun: boolean = false,
-  createBackup: boolean = false
+  backup: boolean = true
 ): Promise<MultiEditResult> {
   // 1. Read file content
   let content: string;
@@ -315,7 +315,7 @@ export async function applyEdits(
   }
 
   // 4. Create backup if requested
-  if (createBackup) {
+  if (backup) {
     try {
       const backupPath = `${filePath}.bak`;
       await fs.writeFile(backupPath, content, 'utf8');

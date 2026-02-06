@@ -67,9 +67,9 @@ const TOOLS = [
           type: 'boolean',
           description: 'Preview changes without applying (default: false)',
         },
-        create_backup: {
+        backup: {
           type: 'boolean',
-          description: 'Create .bak backup file before editing (default: false)',
+          description: 'Create .bak backup file before editing (default: true)',
         },
         include_content: {
           type: 'boolean',
@@ -117,9 +117,9 @@ const TOOLS = [
           type: 'boolean',
           description: 'Preview changes without applying (default: false)',
         },
-        create_backup: {
+        backup: {
           type: 'boolean',
-          description: 'Create .bak backup files before editing (default: false)',
+          description: 'Create .bak backup files before editing (default: true)',
         },
       },
       required: ['files'],

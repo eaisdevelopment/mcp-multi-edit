@@ -69,7 +69,7 @@ export async function handleMultiEditFiles(args: unknown): Promise<{
           fileEdit.file_path,
           fileEdit.edits,
           input.dry_run,
-          input.create_backup
+          input.backup
         );
 
         results.push(result);
