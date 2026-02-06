@@ -19,7 +19,7 @@
 
 ### Safety & Validation
 
-- [ ] **SAFE-01**: Dry-run mode previews changes without writing to disk
+- [x] **SAFE-01**: Dry-run mode previews changes without writing to disk
 - [ ] **SAFE-02**: File paths must be absolute (reject relative paths)
 - [ ] **SAFE-03**: Detect overlapping edits that would conflict
 - [ ] **SAFE-04**: Create backup file (.bak) before applying edits
@@ -87,7 +87,7 @@
 | EDIT-07 | Phase 1 | Complete |
 | EDIT-08 | Phase 7 | Pending |
 | EDIT-09 | Phase 7 | Pending |
-| SAFE-01 | Phase 4 | Pending |
+| SAFE-01 | Phase 4 | Complete |
 | SAFE-02 | Phase 3 | Complete |
 | SAFE-03 | Phase 3 | Complete |
 | SAFE-04 | Phase 5 | Pending |
@@ -118,4 +118,4 @@
 
 ---
 *Requirements defined: 2026-02-05*
-*Last updated: 2026-02-05 after Phase 3 completion*
+*Last updated: 2026-02-06 after Phase 4 completion*
