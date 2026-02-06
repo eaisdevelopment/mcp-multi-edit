@@ -53,7 +53,8 @@ export async function handleMultiEdit(args: unknown): Promise<{
       result,
       input.include_content ?? false,
       input.edits.length,
-      fileContent
+      fileContent,
+      fileContent  // Pass as originalContent - safe because file not modified when dry_run=true
     );
 
     return {
