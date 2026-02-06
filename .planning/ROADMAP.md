@@ -104,10 +104,11 @@ Plans:
   3. Error messages include recovery_hint field guiding LLM to retry correctly
   4. Match failures include surrounding context showing where in file the problem is
   5. Stack traces are never exposed in error responses
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 06-01: TBD
+- [ ] 06-01-PLAN.md -- Error types, errors.ts module, and reporter.ts refactor
+- [ ] 06-02-PLAN.md -- Retrofit all handler error paths to use ErrorEnvelope
 
 ### Phase 7: Multi-File Operations
 **Goal**: Users can edit multiple files atomically with rollback on failure
