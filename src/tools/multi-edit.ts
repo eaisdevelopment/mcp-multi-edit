@@ -7,7 +7,8 @@
 import { readFile } from 'node:fs/promises';
 import { applyEdits } from '../core/editor.js';
 import { validateMultiEditInputFull } from '../core/validator.js';
-import { formatMultiEditResponse, createErrorResult } from '../core/reporter.js';
+import { formatMultiEditResponse } from '../core/reporter.js';
+import { createErrorEnvelope, classifyError } from '../core/errors.js';
 
 /**
  * Handle multi_edit tool call
@@ -19,16 +20,13 @@ export async function handleMultiEdit(args: unknown): Promise<{
   // Validate input using full layered validation
   const validation = await validateMultiEditInputFull(args);
   if (!validation.success) {
-    const errorMessages = validation.errors.map(e =>
-      `${e.code}: ${e.message} (Hint: ${e.recovery_hint})`
-    ).join('\n');
+    const envelope = createErrorEnvelope({
+      error_code: 'VALIDATION_FAILED',
+      message: 'Input validation failed',
+      recovery_hints: validation.errors.map(e => `${e.code}: ${e.message} (${e.recovery_hint})`),
+    });
     return {
-      content: [{ type: 'text', text: JSON.stringify({
-        success: false,
-        error: 'Validation failed',
-        errors: validation.errors,
-        message: errorMessages
-      }, null, 2) }],
+      content: [{ type: 'text', text: JSON.stringify(envelope, null, 2) }],
       isError: true,
     };
   }
@@ -54,7 +52,8 @@ export async function handleMultiEdit(args: unknown): Promise<{
       input.include_content ?? false,
       input.edits.length,
       fileContent,
-      fileContent  // Pass as originalContent - safe because file not modified when dry_run=true
+      fileContent,  // Pass as originalContent - safe because file not modified when dry_run=true
+      input.edits   // Pass edits for per-edit status in ErrorEnvelope
     );
 
     return {
@@ -62,16 +61,14 @@ export async function handleMultiEdit(args: unknown): Promise<{
       isError: !result.success,
     };
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    const result = createErrorResult(input.file_path, message);
-    const response = formatMultiEditResponse(
-      result,
-      false,
-      input.edits.length,
-      fileContent
-    );
+    const classified = classifyError(error, input.file_path);
+    const envelope = createErrorEnvelope({
+      error_code: classified.error_code,
+      message: classified.message,
+      file_path: input.file_path,
+    });
     return {
-      content: [{ type: 'text', text: JSON.stringify(response, null, 2) }],
+      content: [{ type: 'text', text: JSON.stringify(envelope, null, 2) }],
       isError: true,
     };
   }
