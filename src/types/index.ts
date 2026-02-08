@@ -66,6 +66,8 @@ export interface MultiEditFilesInput {
   dry_run?: boolean;
   /** Create backup files before editing (default: true) */
   backup?: boolean;
+  /** Include final file content in response (default: false) */
+  include_content?: boolean;
 }
 
 /**
@@ -109,6 +111,32 @@ export interface MultiEditResult {
 }
 
 /**
+ * Detail of a single file rollback attempt
+ */
+export interface RollbackDetail {
+  /** Path to the file that was rolled back */
+  file_path: string;
+  /** Whether the rollback succeeded or failed */
+  status: 'restored' | 'failed';
+  /** Path to the backup file used for rollback */
+  backup_path: string;
+  /** Error message if rollback failed */
+  error?: string;
+}
+
+/**
+ * Report of rollback results across all files
+ */
+export interface RollbackReport {
+  /** Number of files successfully rolled back */
+  files_rolled_back: number;
+  /** Number of files where rollback failed */
+  files_failed_rollback: number;
+  /** Per-file rollback details */
+  details: RollbackDetail[];
+}
+
+/**
  * Result of multi_edit_files operation
  */
 export interface MultiEditFilesResult {
@@ -124,6 +152,15 @@ export interface MultiEditFilesResult {
   failed_file_index?: number;
   /** Whether this was a dry run */
   dry_run: boolean;
+  /** Summary of multi-file operation */
+  summary?: {
+    total_files: number;
+    files_succeeded: number;
+    files_failed: number;
+    total_edits: number;
+  };
+  /** Rollback report if operation failed and rollback was attempted */
+  rollback?: RollbackReport;
 }
 
 /** Error codes for the error taxonomy */
@@ -135,6 +172,7 @@ export type ErrorCode =
   | 'EMPTY_EDITS'
   | 'EMPTY_OLD_STRING'
   | 'DUPLICATE_OLD_STRING'
+  | 'DUPLICATE_FILE_PATH'
   // Match errors (retryable: true)
   | 'MATCH_NOT_FOUND'
   | 'AMBIGUOUS_MATCH'

@@ -23,6 +23,7 @@ export const RETRYABLE_CODES: Set<ErrorCode> = new Set([
   'EMPTY_EDITS',
   'EMPTY_OLD_STRING',
   'DUPLICATE_OLD_STRING',
+  'DUPLICATE_FILE_PATH',
   'MATCH_NOT_FOUND',
   'AMBIGUOUS_MATCH',
 ]);
@@ -110,6 +111,11 @@ export function getRecoveryHints(errorCode: ErrorCode): string[] {
       return [
         'Each edit must have a unique old_string',
         'Combine edits or make old_strings more specific',
+      ];
+    case 'DUPLICATE_FILE_PATH':
+      return [
+        'Remove duplicate file paths from the files array',
+        'Each file should appear only once',
       ];
     case 'INVALID_ENCODING':
       return ['Ensure the file uses UTF-8 encoding'];

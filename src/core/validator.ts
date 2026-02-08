@@ -40,6 +40,7 @@ export const MultiEditFilesInputSchema = z.object({
   ).min(1, 'At least one file is required'),
   dry_run: z.boolean().optional().default(false),
   backup: z.boolean().optional().default(true),
+  include_content: z.boolean().optional().default(false),
 });
 
 /**
