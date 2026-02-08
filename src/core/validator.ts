@@ -5,7 +5,7 @@
 import { z } from 'zod';
 import path from 'node:path';
 import fs from 'node:fs/promises';
-import type { ValidationError, ValidationResult, MultiEditInput } from '../types/index.js';
+import type { ValidationError, ValidationResult, MultiEditInput, MultiEditFilesInput } from '../types/index.js';
 import { truncateForDisplay } from './reporter.js';
 
 /**
@@ -298,6 +298,132 @@ export async function validateMultiEditInputFull(
     data: {
       ...data,
       file_path: existsResult.resolvedPath,
+    },
+  };
+}
+
+/**
+ * Detect duplicate file paths across the files array
+ * Resolves symlinks before comparison for accurate duplicate detection
+ */
+export async function detectDuplicateFilePaths(
+  files: Array<{ file_path: string }>
+): Promise<ValidationError[]> {
+  const errors: ValidationError[] = [];
+  const resolvedMap = new Map<string, number>(); // resolved_path -> first_occurrence_index
+
+  for (let i = 0; i < files.length; i++) {
+    const existsResult = await validateFileExists(files[i].file_path);
+
+    // If file doesn't exist, skip for duplicate detection (existence check catches it later)
+    if ('code' in existsResult) {
+      continue;
+    }
+
+    const resolvedPath = existsResult.resolvedPath;
+    const firstIndex = resolvedMap.get(resolvedPath);
+
+    if (firstIndex !== undefined) {
+      errors.push({
+        code: 'DUPLICATE_FILE_PATH',
+        message: `Duplicate file path: "${files[i].file_path}" resolves to same location as files[${firstIndex}]`,
+        path: ['files', String(i), 'file_path'],
+        recovery_hint: 'Remove duplicate file paths — each file should appear only once',
+      });
+    } else {
+      resolvedMap.set(resolvedPath, i);
+    }
+  }
+
+  return errors;
+}
+
+/**
+ * Full 5-layer validation pipeline for multi-file input
+ * Collects ALL errors across ALL files before returning
+ *
+ * Layer 1: Zod schema validation (hard stop if fails — subsequent layers need parsed data)
+ * Layer 2: Per-file path validation (absolute, no traversal)
+ * Layer 3: Cross-file duplicate path detection (symlink-aware)
+ * Layer 4: Per-file existence check
+ * Layer 5: Per-file duplicate old_string detection
+ */
+export async function validateMultiEditFilesInputFull(
+  input: unknown
+): Promise<ValidationResult<MultiEditFilesInput>> {
+  // Layer 1: Zod schema validation (hard stop)
+  const schemaResult = MultiEditFilesInputSchema.safeParse(input);
+  if (!schemaResult.success) {
+    return {
+      success: false,
+      errors: formatZodErrors(schemaResult.error),
+    };
+  }
+
+  const data = schemaResult.data;
+  const allErrors: ValidationError[] = [];
+
+  // Layers 2-5 run and collect all errors before returning
+
+  // Layer 2: Per-file path validation
+  for (let i = 0; i < data.files.length; i++) {
+    const pathError = validatePath(data.files[i].file_path);
+    if (pathError) {
+      allErrors.push({
+        ...pathError,
+        path: ['files', String(i), 'file_path'],
+      });
+    }
+  }
+
+  // Layer 3: Cross-file duplicate path detection
+  const duplicatePathErrors = await detectDuplicateFilePaths(data.files);
+  allErrors.push(...duplicatePathErrors);
+
+  // Layer 4: Per-file existence check (also collect resolved paths)
+  const resolvedPaths = new Map<number, string>(); // index -> resolved path
+  for (let i = 0; i < data.files.length; i++) {
+    const existsResult = await validateFileExists(data.files[i].file_path);
+    if ('code' in existsResult) {
+      allErrors.push({
+        ...existsResult,
+        path: ['files', String(i), 'file_path'],
+      });
+    } else {
+      resolvedPaths.set(i, existsResult.resolvedPath);
+    }
+  }
+
+  // Layer 5: Per-file duplicate old_string detection
+  for (let i = 0; i < data.files.length; i++) {
+    const dupErrors = detectDuplicateOldStrings(data.files[i].edits);
+    for (const dupError of dupErrors) {
+      allErrors.push({
+        ...dupError,
+        path: ['files', String(i), ...(dupError.path ?? [])],
+      });
+    }
+  }
+
+  // If any errors were collected, return them all
+  if (allErrors.length > 0) {
+    return {
+      success: false,
+      errors: allErrors,
+    };
+  }
+
+  // All passed — return data with resolved paths
+  const resolvedFiles = data.files.map((file, i) => ({
+    ...file,
+    file_path: resolvedPaths.get(i) ?? file.file_path,
+  }));
+
+  return {
+    success: true,
+    data: {
+      ...data,
+      files: resolvedFiles,
     },
   };
 }
