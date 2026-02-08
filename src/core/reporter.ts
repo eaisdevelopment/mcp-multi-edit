@@ -80,17 +80,48 @@ export function createErrorResult(
 
 /**
  * Create success result for multi_edit_files
+ * Populates top-level summary with file and edit counts
  */
 export function createFilesSuccessResult(
   fileResults: MultiEditResult[],
   dryRun: boolean
 ): MultiEditFilesResult {
+  const filesSucceeded = fileResults.filter(r => r.success).length;
+  const totalEdits = fileResults.reduce((sum, r) => sum + r.edits_applied, 0);
   return {
     success: true,
     files_edited: fileResults.length,
     file_results: fileResults,
+    summary: {
+      total_files: fileResults.length,
+      files_succeeded: filesSucceeded,
+      files_failed: fileResults.length - filesSucceeded,
+      total_edits: totalEdits,
+    },
     dry_run: dryRun,
   };
+}
+
+/**
+ * Format multi_edit_files result for MCP response
+ * Strips final_content from each file result when includeContent is false
+ */
+export function formatMultiEditFilesResponse(
+  result: MultiEditFilesResult,
+  includeContent: boolean = false
+): string {
+  if (!includeContent) {
+    // Strip final_content from each file result before serializing
+    const stripped = {
+      ...result,
+      file_results: result.file_results.map(fr => {
+        const { final_content, ...rest } = fr;
+        return rest;
+      }),
+    };
+    return JSON.stringify(stripped, null, 2);
+  }
+  return JSON.stringify(result, null, 2);
 }
 
 /**
