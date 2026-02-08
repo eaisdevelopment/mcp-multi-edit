@@ -13,9 +13,8 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 
 import { handleMultiEdit } from './tools/multi-edit.js';
+import { handleMultiEditFiles } from './tools/multi-edit-files.js';
 import { createErrorEnvelope, classifyError } from './core/errors.js';
-// TODO: Import multi_edit_files handler when implemented
-// import { handleMultiEditFiles } from './tools/multi-edit-files.js';
 
 const server = new Server(
   {
@@ -120,7 +119,11 @@ const TOOLS = [
         },
         backup: {
           type: 'boolean',
-          description: 'Create .bak backup files before editing (default: true)',
+          description: 'Ignored for multi-file operations (backups are always created as rollback mechanism). For single-file use multi_edit instead.',
+        },
+        include_content: {
+          type: 'boolean',
+          description: 'Include final file content in response (default: false, use for verification)',
         },
       },
       required: ['files'],
@@ -143,15 +146,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     }
 
     if (name === 'multi_edit_files') {
-      // TODO: Implement
-      const envelope = createErrorEnvelope({
-        error_code: 'NOT_IMPLEMENTED',
-        message: 'multi_edit_files is not implemented yet',
-      });
-      return {
-        content: [{ type: 'text', text: JSON.stringify(envelope, null, 2) }],
-        isError: true,
-      };
+      return await handleMultiEditFiles(args);
     }
 
     const unknownEnvelope = createErrorEnvelope({
