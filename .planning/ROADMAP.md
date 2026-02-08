@@ -134,10 +134,11 @@ Plans:
   2. Unit tests verify validator.ts Zod schemas accept valid input and reject invalid input
   3. Tests use mocked filesystem (memfs) for speed and isolation
   4. All unit tests pass on CI
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 08-01: TBD
+- [ ] 08-01-PLAN.md -- Pure logic tests for editor.ts and validator.ts (no mocking)
+- [ ] 08-02-PLAN.md -- Filesystem-dependent tests with memfs for editor.ts IO and validator.ts async
 
 ### Phase 9: Integration Testing
 **Goal**: Full MCP server workflow and edge cases are verified
@@ -194,7 +195,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 5. Backup System | 1/1 | ✓ Complete | 2026-02-06 |
 | 6. Error Response System | 2/2 | ✓ Complete | 2026-02-06 |
 | 7. Multi-File Operations | 2/2 | ✓ Complete | 2026-02-08 |
-| 8. Unit Testing | 0/TBD | Not started | - |
+| 8. Unit Testing | 0/2 | Not started | - |
 | 9. Integration Testing | 0/TBD | Not started | - |
 | 10. Coverage Completion | 0/TBD | Not started | - |
 | 11. Publishing | 0/TBD | Not started | - |
