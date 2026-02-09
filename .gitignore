@@ -3,3 +3,11 @@ dist/
 coverage/
 *.log
 .DS_Store
+
+# SDLC / internal
+.planning/
+.idea/
+.claude-plugin/
+.mcp.json
+CLAUDE.md
+specification/
