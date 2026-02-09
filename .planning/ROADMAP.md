@@ -163,10 +163,12 @@ Plans:
   1. Code coverage report shows 90%+ line coverage
   2. Coverage gaps are documented with rationale (e.g., unreachable error branches)
   3. CI enforces coverage threshold - builds fail below 90%
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 10-01: TBD
+- [ ] 10-01-PLAN.md — Test errors.ts and reporter.ts pure functions, remove dead code
+- [ ] 10-02-PLAN.md — Test tool handler error/rollback paths (multi-edit-files, multi-edit, server)
+- [ ] 10-03-PLAN.md — Configure coverage thresholds, fill validator branches, close remaining gaps
 
 ### Phase 11: Publishing
 **Goal**: Package is ready for npm public registry publication
@@ -198,7 +200,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 7. Multi-File Operations | 2/2 | ✓ Complete | 2026-02-08 |
 | 8. Unit Testing | 2/2 | ✓ Complete | 2026-02-09 |
 | 9. Integration Testing | 2/2 | ✓ Complete | 2026-02-09 |
-| 10. Coverage Completion | 0/TBD | Not started | - |
+| 10. Coverage Completion | 0/3 | In Progress | - |
 | 11. Publishing | 0/TBD | Not started | - |
 
 ---
