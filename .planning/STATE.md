@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-05)
 
 **Core value:** Atomicity - all edits in a tool call succeed or none apply
-**Current focus:** Phase 8 - Unit Testing
+**Current focus:** Phase 9 - Integration Testing
 
 ## Current Position
 
-Phase: 8 of 11 (Unit Testing) -- COMPLETE
-Plan: 2 of 2 in current phase
-Status: Phase 8 complete, ready for phase 9
-Last activity: 2026-02-09 - Completed 08-02-PLAN.md
+Phase: 9 of 11 (Integration Testing)
+Plan: 1 of 2 in current phase
+Status: Executing phase 9
+Last activity: 2026-02-09 - Completed 09-01-PLAN.md
 
-Progress: [########=  ] ~76%
+Progress: [########=  ] ~80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
+- Total plans completed: 13
 - Average duration: 3.1 min
-- Total execution time: 0.62 hours
+- Total execution time: 0.67 hours
 
 **By Phase:**
 
@@ -35,9 +35,10 @@ Progress: [########=  ] ~76%
 | 06-error-response-system | 2 | 7 min | 3.5 min |
 | 07-multi-file-operations | 2 | 6 min | 3 min |
 | 08-unit-testing | 2 | 5 min | 2.5 min |
+| 09-integration-testing | 1 | 3 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 06-02 (4 min), 07-01 (3 min), 07-02 (3 min), 08-01 (2 min), 08-02 (3 min)
+- Last 5 plans: 07-01 (3 min), 07-02 (3 min), 08-01 (2 min), 08-02 (3 min), 09-01 (3 min)
 - Trend: Stable velocity
 
 *Updated after each plan completion*
@@ -86,6 +87,9 @@ Recent decisions affecting current work:
 | 2026-02-09 | Adjusted formatZodErrors test expectation | edits path matched before old_string in switch; test validates hint exists | 08-01 |
 | 2026-02-09 | Mock specifier matches import specifier | 'fs/promises' for editor.ts, 'node:fs/promises' for validator.ts | 08-02 |
 | 2026-02-09 | vi.spyOn on default export for EACCES test | Validator uses default import; named export spy ineffective | 08-02 |
+| 2026-02-09 | Extracted server factory into src/server.ts | InMemoryTransport testability for integration tests | 09-01 |
+| 2026-02-09 | Rollback test uses match-not-found failure | Non-existent file caught in upfront validation, not edit phase | 09-01 |
+| 2026-02-09 | macOS /tmp symlink resolved via realpath() | Validator returns resolved paths; tests must match | 09-01 |
 
 ### Pending Todos
 
@@ -98,5 +102,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-09
-Stopped at: Completed 08-02-PLAN.md (Phase 8 complete)
+Stopped at: Completed 09-01-PLAN.md
 Resume file: None
