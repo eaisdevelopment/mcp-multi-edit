@@ -103,8 +103,8 @@
 | MCP-04 | Phase 2 | Complete |
 | TEST-01 | Phase 8 | Pending |
 | TEST-02 | Phase 8 | Pending |
-| TEST-03 | Phase 9 | Pending |
-| TEST-04 | Phase 9 | Pending |
+| TEST-03 | Phase 9 | Complete |
+| TEST-04 | Phase 9 | Complete |
 | TEST-05 | Phase 10 | Pending |
 | PUB-01 | Phase 11 | Pending |
 | PUB-02 | Phase 11 | Pending |
