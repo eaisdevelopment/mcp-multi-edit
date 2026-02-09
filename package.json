@@ -15,7 +15,13 @@
     "test:coverage": "vitest run --coverage",
     "prepublishOnly": "npm run build && npm run test"
   },
-  "keywords": ["mcp", "claude", "multi-edit", "file-editing", "anthropic"],
+  "keywords": [
+    "mcp",
+    "claude",
+    "multi-edit",
+    "file-editing",
+    "anthropic"
+  ],
   "author": "Pavlo Sidelov <pavlo@sdkfinance.com>",
   "license": "MIT",
   "repository": {
@@ -31,9 +37,10 @@
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "^5.4.0",
+    "@vitest/coverage-v8": "^1.6.0",
+    "memfs": "^4.56.10",
     "tsx": "^4.0.0",
-    "vitest": "^1.6.0",
-    "@vitest/coverage-v8": "^1.6.0"
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
   }
 }
