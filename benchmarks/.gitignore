@@ -1,2 +1,4 @@
-results/
 tmp/
+results/benchmark-*.json
+results/measurement-*.json
+results/report-*.md
