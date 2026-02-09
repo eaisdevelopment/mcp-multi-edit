@@ -1,4 +1,4 @@
-# CLAUDE.md - EAIS MCP Multi-Edit Server
+# CLAUDE.md - MCP Multi-Edit Server
 
 ## Project Overview
 
