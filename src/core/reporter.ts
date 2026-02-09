@@ -2,7 +2,7 @@
  * Result formatting and reporting
  */
 
-import type { MultiEditResult, MultiEditFilesResult, EditResult, ErrorEnvelope, ErrorCode, ErrorContext } from '../types/index.js';
+import type { MultiEditResult, MultiEditFilesResult, ErrorEnvelope, ErrorCode, ErrorContext } from '../types/index.js';
 import { createErrorEnvelope, extractFileContext, extractMatchLocations, buildEditStatus } from './errors.js';
 import { findAllMatchPositions } from './editor.js';
 
@@ -23,59 +23,6 @@ export interface SuccessResponse {
   }>;
   backup_path?: string;
   final_content?: string;
-}
-
-/**
- * Format multi_edit result for MCP response
- */
-export function formatMultiEditResult(result: MultiEditResult): string {
-  return JSON.stringify(result, null, 2);
-}
-
-/**
- * Format multi_edit_files result for MCP response
- */
-export function formatMultiEditFilesResult(result: MultiEditFilesResult): string {
-  return JSON.stringify(result, null, 2);
-}
-
-/**
- * Create success result for multi_edit
- */
-export function createSuccessResult(
-  filePath: string,
-  results: EditResult[],
-  dryRun: boolean,
-  backupPath?: string
-): MultiEditResult {
-  return {
-    success: true,
-    file_path: filePath,
-    edits_applied: results.filter(r => r.success).length,
-    results,
-    dry_run: dryRun,
-    backup_path: backupPath,
-  };
-}
-
-/**
- * Create error result for multi_edit
- */
-export function createErrorResult(
-  filePath: string,
-  error: string,
-  failedIndex?: number,
-  results?: EditResult[]
-): MultiEditResult {
-  return {
-    success: false,
-    file_path: filePath,
-    edits_applied: 0,
-    results: results || [],
-    error,
-    failed_edit_index: failedIndex,
-    dry_run: false,
-  };
 }
 
 /**
@@ -122,24 +69,6 @@ export function formatMultiEditFilesResponse(
     return JSON.stringify(stripped, null, 2);
   }
   return JSON.stringify(result, null, 2);
-}
-
-/**
- * Create error result for multi_edit_files
- */
-export function createFilesErrorResult(
-  error: string,
-  failedIndex?: number,
-  fileResults?: MultiEditResult[]
-): MultiEditFilesResult {
-  return {
-    success: false,
-    files_edited: 0,
-    file_results: fileResults || [],
-    error,
-    failed_file_index: failedIndex,
-    dry_run: false,
-  };
 }
 
 /**
