@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-05)
 
 **Core value:** Atomicity - all edits in a tool call succeed or none apply
-**Current focus:** Phase 10 - Coverage Completion (COMPLETE)
+**Current focus:** Phase 11 - Publishing (IN PROGRESS)
 
 ## Current Position
 
-Phase: 10 of 11 (Coverage Completion) - COMPLETE
-Plan: 3 of 3 in current phase (all plans complete)
-Status: Phase 10 complete. All coverage thresholds enforced at 90%+.
-Last activity: 2026-02-09 - Completed 10-03-PLAN.md
+Phase: 11 of 11 (Publishing) - IN PROGRESS
+Plan: 2 of 3 in current phase
+Status: Completed 11-02 (README rewrite and distribution verification). Plans 01 and 03 remain.
+Last activity: 2026-02-09 - Completed 11-02-PLAN.md
 
-Progress: [###########] ~95%
+Progress: [############] ~97%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
+- Total plans completed: 18
 - Average duration: 3.1 min
-- Total execution time: 0.89 hours
+- Total execution time: 0.92 hours
 
 **By Phase:**
 
@@ -37,9 +37,10 @@ Progress: [###########] ~95%
 | 08-unit-testing | 2 | 5 min | 2.5 min |
 | 09-integration-testing | 2 | 4 min | 2 min |
 | 10-coverage-completion | 3 | 13 min | 4.3 min |
+| 11-publishing | 1 | 2 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 09-01 (3 min), 09-02 (1 min), 10-02 (2 min), 10-01 (4 min), 10-03 (7 min)
+- Last 5 plans: 09-02 (1 min), 10-02 (2 min), 10-01 (4 min), 10-03 (7 min), 11-02 (2 min)
 - Trend: Stable velocity
 
 *Updated after each plan completion*
@@ -102,6 +103,9 @@ Recent decisions affecting current work:
 | 2026-02-09 | Direct ZodError construction for branch tests | Normal validation cannot trigger all switch cases (old_string path shadowed by edits) | 10-03 |
 | 2026-02-09 | 1 v8 ignore for applyEdits atomicWrite catch | Non-mockable ESM import; equivalent path tested via tool handlers | 10-03 |
 | 2026-02-09 | Separate test file for real-fs handler tests | memfs mock in validator-branches would interfere with handler tests | 10-03 |
+| 2026-02-09 | README Claude Code Quick Start as primary section | Primary audience per plan context | 11-02 |
+| 2026-02-09 | Full ErrorEnvelope examples in README with recovery_hints | Critical for LLM retry context | 11-02 |
+| 2026-02-09 | Multi-file rollback example shows complete rollback report | Demonstrates the full rollback mechanism to users | 11-02 |
 
 ### Pending Todos
 
@@ -114,5 +118,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-09
-Stopped at: Completed 10-03-PLAN.md (Phase 10 complete, all 3 plans done)
+Stopped at: Completed 11-02-PLAN.md (README rewrite + distribution verification)
 Resume file: None
