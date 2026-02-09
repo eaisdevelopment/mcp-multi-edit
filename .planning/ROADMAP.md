@@ -171,18 +171,20 @@ Plans:
 - [x] 10-03-PLAN.md — Configure coverage thresholds, fill validator branches, close remaining gaps
 
 ### Phase 11: Publishing
-**Goal**: Package is ready for npm public registry publication
+**Goal**: Package is published to npm as @essentialai/mcp-multi-edit with PolyForm Noncommercial license
 **Depends on**: Phase 10
 **Requirements**: PUB-01, PUB-02, PUB-03, PUB-04
 **Success Criteria** (what must be TRUE):
-  1. Package is named @anthropic-community/eais-mcp-multi-edit in package.json
+  1. Package is named @essentialai/mcp-multi-edit in package.json
   2. README includes installation instructions and usage examples for Claude Code
-  3. MIT license file is present in repository
-  4. package.json has proper metadata: bin entry, main, types, repository, keywords
-**Plans**: TBD
+  3. PolyForm Noncommercial license file is present in repository
+  4. package.json has proper metadata: bin entry, main, types, repository, keywords, publishConfig
+**Plans**: 3 plans
 
 Plans:
-- [ ] 11-01: TBD
+- [ ] 11-01-PLAN.md — Package metadata, license replacement, changelog creation
+- [ ] 11-02-PLAN.md — README rewrite for Claude Code audience, distribution verification
+- [ ] 11-03-PLAN.md — Git remote configuration, GitHub push, npm publish
 
 ## Progress
 
@@ -201,7 +203,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 8. Unit Testing | 2/2 | ✓ Complete | 2026-02-09 |
 | 9. Integration Testing | 2/2 | ✓ Complete | 2026-02-09 |
 | 10. Coverage Completion | 3/3 | ✓ Complete | 2026-02-09 |
-| 11. Publishing | 0/TBD | Not started | - |
+| 11. Publishing | 0/3 | In progress | - |
 
 ---
 *Roadmap created: 2026-02-05*
