@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-05)
 
 **Core value:** Atomicity - all edits in a tool call succeed or none apply
-**Current focus:** Phase 11 - Publishing (COMPLETE)
+**Current focus:** Phase 11 - Publishing (IN PROGRESS)
 
 ## Current Position
 
-Phase: 11 of 11 (Publishing) - COMPLETE
-Plan: 3 of 3 in current phase (all plans complete)
-Status: All phases complete. Package published to npm and code pushed to GitHub.
-Last activity: 2026-02-09 - Completed 11-03-PLAN.md
+Phase: 11 of 11 (Publishing) - IN PROGRESS
+Plan: 2 of 3 in current phase
+Status: Completed 11-01 (package identity, license, changelog) and 11-02 (README). Plan 03 remains.
+Last activity: 2026-02-09 - Completed 11-01-PLAN.md
 
-Progress: [#############] 100%
+Progress: [############] ~98%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 20
-- Average duration: 2.9 min
-- Total execution time: 0.98 hours
+- Total plans completed: 19
+- Average duration: 3.0 min
+- Total execution time: 0.95 hours
 
 **By Phase:**
 
@@ -37,10 +37,10 @@ Progress: [#############] 100%
 | 08-unit-testing | 2 | 5 min | 2.5 min |
 | 09-integration-testing | 2 | 4 min | 2 min |
 | 10-coverage-completion | 3 | 13 min | 4.3 min |
-| 11-publishing | 3 | 9 min | 3 min |
+| 11-publishing | 2 | 4 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 10-01 (4 min), 10-03 (7 min), 11-02 (2 min), 11-01 (2 min), 11-03 (5 min)
+- Last 5 plans: 10-02 (2 min), 10-01 (4 min), 10-03 (7 min), 11-02 (2 min), 11-01 (2 min)
 - Trend: Stable velocity
 
 *Updated after each plan completion*
@@ -106,7 +106,6 @@ Recent decisions affecting current work:
 | 2026-02-09 | README Claude Code Quick Start as primary section | Primary audience per plan context | 11-02 |
 | 2026-02-09 | Full ErrorEnvelope examples in README with recovery_hints | Critical for LLM retry context | 11-02 |
 | 2026-02-09 | Multi-file rollback example shows complete rollback report | Demonstrates the full rollback mechanism to users | 11-02 |
-| 2026-02-09 | Force push over rebase for initial GitHub push | Remote had single auto-generated commit; force-with-lease cleaner than rebasing 108 commits | 11-03 |
 
 ### Pending Todos
 
@@ -119,5 +118,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-09
-Stopped at: All phases complete. Project published.
+Stopped at: Completed 11-01-PLAN.md (package identity, PolyForm license, changelog)
 Resume file: None
