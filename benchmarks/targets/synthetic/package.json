@@ -1,0 +1,14 @@
+{
+  "name": "@benchmark/synthetic-sdk",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Synthetic SDK project for benchmark testing",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

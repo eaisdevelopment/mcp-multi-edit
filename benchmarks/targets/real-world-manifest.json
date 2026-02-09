@@ -1,0 +1,71 @@
+{
+  "name": "mcp-multi-edit",
+  "type": "real-world",
+  "source_dir": "src",
+  "description": "Production MCP server providing atomic multi-edit capabilities. 9 TypeScript files, ~2284 lines.",
+  "files": [
+    {
+      "file_path": "src/types/index.ts",
+      "line_count": 228,
+      "export_count": 15,
+      "import_count": 0,
+      "edit_types": ["rename", "feature-add"]
+    },
+    {
+      "file_path": "src/core/editor.ts",
+      "line_count": 447,
+      "export_count": 13,
+      "import_count": 5,
+      "edit_types": ["rename", "feature-add"]
+    },
+    {
+      "file_path": "src/core/validator.ts",
+      "line_count": 429,
+      "export_count": 14,
+      "import_count": 5,
+      "edit_types": ["rename", "feature-add"]
+    },
+    {
+      "file_path": "src/core/reporter.ts",
+      "line_count": 241,
+      "export_count": 6,
+      "import_count": 3,
+      "edit_types": ["rename", "feature-add"]
+    },
+    {
+      "file_path": "src/core/errors.ts",
+      "line_count": 311,
+      "export_count": 8,
+      "import_count": 1,
+      "edit_types": ["rename", "feature-add", "config-migration"]
+    },
+    {
+      "file_path": "src/tools/multi-edit.ts",
+      "line_count": 75,
+      "export_count": 1,
+      "import_count": 5,
+      "edit_types": ["rename", "feature-add"]
+    },
+    {
+      "file_path": "src/tools/multi-edit-files.ts",
+      "line_count": 359,
+      "export_count": 1,
+      "import_count": 5,
+      "edit_types": ["rename", "feature-add"]
+    },
+    {
+      "file_path": "src/server.ts",
+      "line_count": 177,
+      "export_count": 1,
+      "import_count": 5,
+      "edit_types": ["rename", "feature-add", "config-migration"]
+    },
+    {
+      "file_path": "src/index.ts",
+      "line_count": 17,
+      "export_count": 0,
+      "import_count": 2,
+      "edit_types": ["feature-add"]
+    }
+  ]
+}
