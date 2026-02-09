@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-05)
 
 **Core value:** Atomicity - all edits in a tool call succeed or none apply
-**Current focus:** Phase 9 - Integration Testing
+**Current focus:** Phase 9 - Integration Testing (COMPLETE)
 
 ## Current Position
 
-Phase: 9 of 11 (Integration Testing)
-Plan: 1 of 2 in current phase
-Status: Executing phase 9
-Last activity: 2026-02-09 - Completed 09-01-PLAN.md
+Phase: 9 of 11 (Integration Testing) - COMPLETE
+Plan: 2 of 2 in current phase (all plans complete)
+Status: Phase 9 complete, ready for phase 10
+Last activity: 2026-02-09 - Completed 09-02-PLAN.md
 
-Progress: [########=  ] ~80%
+Progress: [#########= ] ~85%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
-- Average duration: 3.1 min
-- Total execution time: 0.67 hours
+- Total plans completed: 14
+- Average duration: 2.9 min
+- Total execution time: 0.68 hours
 
 **By Phase:**
 
@@ -35,10 +35,10 @@ Progress: [########=  ] ~80%
 | 06-error-response-system | 2 | 7 min | 3.5 min |
 | 07-multi-file-operations | 2 | 6 min | 3 min |
 | 08-unit-testing | 2 | 5 min | 2.5 min |
-| 09-integration-testing | 1 | 3 min | 3 min |
+| 09-integration-testing | 2 | 4 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 07-01 (3 min), 07-02 (3 min), 08-01 (2 min), 08-02 (3 min), 09-01 (3 min)
+- Last 5 plans: 07-02 (3 min), 08-01 (2 min), 08-02 (3 min), 09-01 (3 min), 09-02 (1 min)
 - Trend: Stable velocity
 
 *Updated after each plan completion*
@@ -90,6 +90,7 @@ Recent decisions affecting current work:
 | 2026-02-09 | Extracted server factory into src/server.ts | InMemoryTransport testability for integration tests | 09-01 |
 | 2026-02-09 | Rollback test uses match-not-found failure | Non-existent file caught in upfront validation, not edit phase | 09-01 |
 | 2026-02-09 | macOS /tmp symlink resolved via realpath() | Validator returns resolved paths; tests must match | 09-01 |
+| 2026-02-09 | Direct handler calls for edge case tests | Efficiency: same handler-to-filesystem path without MCP transport overhead | 09-02 |
 
 ### Pending Todos
 
@@ -102,5 +103,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-09
-Stopped at: Completed 09-01-PLAN.md
+Stopped at: Completed 09-02-PLAN.md (Phase 9 complete)
 Resume file: None
