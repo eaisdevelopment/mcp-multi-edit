@@ -1,12 +1,19 @@
 {
-  "name": "@anthropic-community/eais-mcp-multi-edit",
-  "version": "1.0.0",
+  "name": "@essentialai/mcp-multi-edit",
+  "version": "0.1.0",
   "description": "MCP server providing atomic multi-edit capabilities for Claude Code",
   "type": "module",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
     "mcp-multi-edit": "dist/index.js"
   },
+  "files": [
+    "dist/",
+    "src/",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/index.ts",
@@ -17,19 +24,30 @@
   },
   "keywords": [
     "mcp",
+    "model-context-protocol",
     "claude",
+    "claude-code",
     "multi-edit",
     "file-editing",
-    "anthropic"
+    "atomic-operations",
+    "find-and-replace",
+    "code-editing"
   ],
-  "author": "Pavlo Sidelov <pavlo@sdkfinance.com>",
-  "license": "MIT",
+  "author": "Pavlo Sidelov <pavlo@essentialai.uk>",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/anthropic-community/eais-mcp-multi-edit"
+    "url": "https://github.com/eaisdevelopment/mcp-multi-edit"
   },
+  "bugs": {
+    "url": "https://github.com/eaisdevelopment/mcp-multi-edit/issues"
+  },
+  "homepage": "https://github.com/eaisdevelopment/mcp-multi-edit#readme",
   "engines": {
     "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",

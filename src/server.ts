@@ -124,8 +124,8 @@ const TOOLS = [
 export function createServer(): Server {
   const server = new Server(
     {
-      name: 'eais-mcp-multi-edit',
-      version: '1.0.0',
+      name: 'mcp-multi-edit',
+      version: '0.1.0',
     },
     {
       capabilities: {
