@@ -383,6 +383,9 @@ export async function applyEdits(
   try {
     await atomicWrite(filePath, result.final_content!);
   } catch (error) {
+    /* v8 ignore next 5 -- Defensive: atomicWrite uses temp-file-then-rename; failure here requires
+       fs.writeFile or fs.rename to throw after in-memory edits succeed. Cannot mock non-configurable
+       ESM fs/promises imports in tests. Equivalent path tested via tool handler error paths. */
     return {
       ...result,
       success: false,
