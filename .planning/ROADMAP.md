@@ -149,10 +149,11 @@ Plans:
   2. Edge cases are tested: unicode content, large files, empty edits array
   3. Tests verify actual file operations on real filesystem (temp directories)
   4. All integration tests pass on CI
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 09-01: TBD
+- [ ] 09-01-PLAN.md -- Server factory extraction, test helpers, and MCP protocol integration tests
+- [ ] 09-02-PLAN.md -- Edge case tests (unicode, large files, empty edits, line endings, match behavior)
 
 ### Phase 10: Coverage Completion
 **Goal**: Test suite achieves production-quality coverage threshold
@@ -196,7 +197,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 6. Error Response System | 2/2 | ✓ Complete | 2026-02-06 |
 | 7. Multi-File Operations | 2/2 | ✓ Complete | 2026-02-08 |
 | 8. Unit Testing | 2/2 | ✓ Complete | 2026-02-09 |
-| 9. Integration Testing | 0/TBD | Not started | - |
+| 9. Integration Testing | 0/2 | Not started | - |
 | 10. Coverage Completion | 0/TBD | Not started | - |
 | 11. Publishing | 0/TBD | Not started | - |
 
