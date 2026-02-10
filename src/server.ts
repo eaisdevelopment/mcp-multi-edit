@@ -124,7 +124,7 @@ const TOOLS = [
 export function createServer(): Server {
   const server = new Server(
     {
-      name: 'mcp-multi-edit',
+      name: 'Multi Edit MCP Server from Essential AI Solutions (essentialai.uk)',
       version: '0.1.0',
     },
     {
