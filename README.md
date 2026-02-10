@@ -48,8 +48,10 @@ Restart Claude Code. That's it -- Claude will automatically use `multi_edit` whe
 **Alternative:** One-liner via CLI:
 
 ```bash
-claude mcp add --transport stdio "Multi Edit from Essential AI Solutions (essentialai.uk)" -- npx -y @essentialai/mcp-multi-edit
+claude mcp add --transport stdio multi-edit -- npx -y @essentialai/mcp-multi-edit
 ```
+
+> **Note:** The CLI only accepts simple names (letters, numbers, hyphens, underscores). For the full branded display name, use the `.mcp.json` approach above.
 
 ### Claude Desktop
 

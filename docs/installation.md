@@ -65,12 +65,14 @@ You should see the server listed with status `connected` and 2 tools available.
 ### Option B: CLI one-liner
 
 ```bash
-claude mcp add --transport stdio "Multi Edit from Essential AI Solutions (essentialai.uk)" -- npx -y @essentialai/mcp-multi-edit
+claude mcp add --transport stdio multi-edit -- npx -y @essentialai/mcp-multi-edit
 ```
 
 This adds the server to your user-level Claude Code configuration (`~/.claude.json`). It persists across sessions and is available in all projects.
 
-> **Note:** The CLI adds the server as a "Local MCP" (user-level), not a "Project MCP". It will appear under "Local MCPs" in `/mcp`. To make it project-level, use Option A instead.
+> **Note:** The CLI only accepts names with letters, numbers, hyphens, and underscores, so the server will display as "Multi-edit MCP Server". For the full branded name, use Option A (`.mcp.json`) instead, which accepts any string as a key.
+
+> The CLI adds the server as a "Local MCP" (user-level), not a "Project MCP". It will appear under "Local MCPs" in `/mcp`. To make it project-level, use Option A instead.
 
 ### Option C: Global install
 
@@ -149,7 +151,7 @@ npm update -g @essentialai/mcp-multi-edit
 Remove the entry from `.mcp.json` or, if installed via CLI:
 
 ```bash
-claude mcp remove "Multi Edit from Essential AI Solutions (essentialai.uk)"
+claude mcp remove multi-edit
 ```
 
 ### Global install
