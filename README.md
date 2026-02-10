@@ -24,36 +24,15 @@ With multi_edit_files:     6 tool calls   |    4,550 tokens   (-94% calls, -71% 
 > Benchmarks run on realistic scenarios (bulk rename, logging migration, cross-file refactor).
 > See [benchmarks/results/BENCHMARK-REPORT.md](./benchmarks/results/BENCHMARK-REPORT.md) for full details.
 
-## Quick Start
+## Install
 
-**Step 1.** Create `.mcp.json` in your project root:
-
-```json
-{
-  "mcpServers": {
-    "Multi Edit from Essential AI Solutions (essentialai.uk)": {
-      "command": "npx",
-      "args": ["-y", "@essentialai/mcp-multi-edit"]
-    }
-  }
-}
+```bash
+claude mcp add --transport stdio multi-edit -- npx -y @essentialai/mcp-multi-edit
 ```
 
-**Step 2.** Restart Claude Code (`/exit` then `claude`)
+Restart Claude Code (`/exit` then `claude`). Run `/mcp` to verify -- `multi-edit` should show `connected`.
 
-**Step 3.** Verify with `/mcp` -- you should see the server with status `connected`
-
-**Step 4.** Create `CLAUDE.md` in your project root so Claude automatically prefers `multi_edit`:
-
-```markdown
-## Editing Files
-
-When making multiple edits to the same file or across multiple files,
-prefer using the `multi_edit` and `multi_edit_files` MCP tools over
-the built-in Edit tool. These batch edits atomically in a single call.
-```
-
-Done. See the [full installation guide](./docs/installation.md) for Claude Desktop setup and alternative methods.
+> See [docs/installation.md](./docs/installation.md) for Claude Desktop, project-level config, and other options.
 
 ## Tools
 
