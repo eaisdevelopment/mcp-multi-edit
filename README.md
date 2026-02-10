@@ -26,9 +26,7 @@ With multi_edit_files:     6 tool calls   |    4,550 tokens   (-94% calls, -71% 
 
 ## Quick Start
 
-### Claude Code
-
-Add `.mcp.json` to your project root:
+**Step 1.** Create `.mcp.json` in your project root:
 
 ```json
 {
@@ -41,7 +39,11 @@ Add `.mcp.json` to your project root:
 }
 ```
 
-Restart Claude Code. Then add the included `CLAUDE.md` to your project root so Claude **automatically prefers** `multi_edit` over the built-in Edit tool:
+**Step 2.** Restart Claude Code (`/exit` then `claude`)
+
+**Step 3.** Verify with `/mcp` -- you should see the server with status `connected`
+
+**Step 4.** Create `CLAUDE.md` in your project root so Claude automatically prefers `multi_edit`:
 
 ```markdown
 ## Editing Files
@@ -51,36 +53,7 @@ prefer using the `multi_edit` and `multi_edit_files` MCP tools over
 the built-in Edit tool. These batch edits atomically in a single call.
 ```
 
-That's it -- Claude will now use `multi_edit` whenever it's the right tool for the job.
-
-> **Display name:** Claude Code uses the key name in `mcpServers` as the server's display name. You can change the key to any name you prefer.
-
-**Alternative:** One-liner via CLI:
-
-```bash
-claude mcp add --transport stdio multi-edit -- npx -y @essentialai/mcp-multi-edit
-```
-
-> **Note:** The CLI only accepts simple names (letters, numbers, hyphens, underscores). For the full branded display name, use the `.mcp.json` approach above.
-
-### Claude Desktop
-
-Add to your config file (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
-
-```json
-{
-  "mcpServers": {
-    "Multi Edit from Essential AI Solutions (essentialai.uk)": {
-      "command": "npx",
-      "args": ["-y", "@essentialai/mcp-multi-edit"]
-    }
-  }
-}
-```
-
-Restart Claude Desktop.
-
-> **Full installation guide:** [docs/installation.md](./docs/installation.md)
+Done. See the [full installation guide](./docs/installation.md) for Claude Desktop setup and alternative methods.
 
 ## Tools
 
