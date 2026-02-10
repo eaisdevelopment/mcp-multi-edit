@@ -1,6 +1,7 @@
 {
   "name": "@essentialai/mcp-multi-edit",
-  "version": "0.2.0",
+  "version": "0.2.1",
+  "mcpName": "io.github.eaisdevelopment/mcp-multi-edit",
   "description": "MCP server providing atomic multi-edit capabilities for Claude Code",
   "type": "module",
   "main": "dist/index.js",
