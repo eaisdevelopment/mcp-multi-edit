@@ -74,15 +74,17 @@ This adds the server to your user-level Claude Code configuration (`~/.claude.js
 
 > The CLI adds the server as a "Local MCP" (user-level), not a "Project MCP". It will appear under "Local MCPs" in `/mcp`. To make it project-level, use Option A instead.
 
-### Option C: Global install
+### Option C: Global install (faster startup)
 
-If you prefer not to use `npx` on every invocation:
+By default, `npx` downloads the package on first run, which can be slow. Installing globally makes startup instant:
 
 ```bash
 npm install -g @essentialai/mcp-multi-edit
 ```
 
-Then configure `.mcp.json`:
+> **Important:** This only installs the binary on your system. You still need to register it with Claude using `.mcp.json` or `claude mcp add`. The global install alone does **not** make the server appear in `/mcp`.
+
+**Step 2:** Create `.mcp.json` in your project root (or use `claude mcp add`):
 
 ```json
 {
@@ -93,6 +95,8 @@ Then configure `.mcp.json`:
   }
 }
 ```
+
+The only difference from Option A is `"command": "mcp-multi-edit"` (direct binary) instead of `"command": "npx"` (downloads on demand).
 
 ## Install for Claude Desktop
 
