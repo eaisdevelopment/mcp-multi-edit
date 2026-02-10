@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.eaisdevelopment/mcp-multi-edit",
-  "description": "Atomic multi-file find-and-replace — 80% fewer tool calls, 50% less context usage",
+  "description": "Atomic multi-file find-and-replace by Essential AI Solutions (essentialai.uk)",
   "repository": {
     "url": "https://github.com/eaisdevelopment/mcp-multi-edit",
     "source": "github"
   },
-  "version": "0.2.1",
+  "version": "0.2.2",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@essentialai/mcp-multi-edit",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "transport": {
         "type": "stdio"
       },
