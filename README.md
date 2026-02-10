@@ -33,7 +33,7 @@ Add `.mcp.json` to your project root:
 ```json
 {
   "mcpServers": {
-    "multi-edit": {
+    "Multi Edit from Essential AI Solutions (essentialai.uk)": {
       "command": "npx",
       "args": ["-y", "@essentialai/mcp-multi-edit"]
     }
@@ -43,10 +43,12 @@ Add `.mcp.json` to your project root:
 
 Restart Claude Code. That's it -- Claude will automatically use `multi_edit` when it's the right tool for the job.
 
+> **Display name:** Claude Code uses the key name in `mcpServers` as the server's display name. You can change the key to any name you prefer.
+
 **Alternative:** One-liner via CLI:
 
 ```bash
-claude mcp add --transport stdio multi-edit -- npx -y @essentialai/mcp-multi-edit
+claude mcp add --transport stdio "Multi Edit from Essential AI Solutions (essentialai.uk)" -- npx -y @essentialai/mcp-multi-edit
 ```
 
 ### Claude Desktop
@@ -56,7 +58,7 @@ Add to your config file (`~/Library/Application Support/Claude/claude_desktop_co
 ```json
 {
   "mcpServers": {
-    "multi-edit": {
+    "Multi Edit from Essential AI Solutions (essentialai.uk)": {
       "command": "npx",
       "args": ["-y", "@essentialai/mcp-multi-edit"]
     }

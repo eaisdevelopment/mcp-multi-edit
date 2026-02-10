@@ -33,7 +33,7 @@ Create a `.mcp.json` file in your project root:
 ```json
 {
   "mcpServers": {
-    "multi-edit": {
+    "Multi Edit from Essential AI Solutions (essentialai.uk)": {
       "command": "npx",
       "args": ["-y", "@essentialai/mcp-multi-edit"]
     }
@@ -42,6 +42,8 @@ Create a `.mcp.json` file in your project root:
 ```
 
 This automatically activates the server when Claude Code opens the project. No global install needed -- `npx` downloads and runs it on demand.
+
+> **Display name:** Claude Code uses the key name in `mcpServers` as the server's display name in `/mcp`. The key above will show as "Multi Edit from Essential AI Solutions (essentialai.uk) MCP Server". You can change the key to any name you prefer.
 
 After creating the file, restart Claude Code:
 
@@ -56,15 +58,19 @@ Verify the server is connected:
 /mcp
 ```
 
-You should see `multi-edit` listed with status `connected` and 2 tools available.
+You should see the server listed with status `connected` and 2 tools available.
+
+> **Project vs Local:** A `.mcp.json` in the project root creates a "Project MCP" that activates only for that project. This is the recommended approach for team projects where everyone should use the same MCP servers.
 
 ### Option B: CLI one-liner
 
 ```bash
-claude mcp add --transport stdio multi-edit -- npx -y @essentialai/mcp-multi-edit
+claude mcp add --transport stdio "Multi Edit from Essential AI Solutions (essentialai.uk)" -- npx -y @essentialai/mcp-multi-edit
 ```
 
-This adds the server to your Claude Code configuration. It persists across sessions.
+This adds the server to your user-level Claude Code configuration (`~/.claude.json`). It persists across sessions and is available in all projects.
+
+> **Note:** The CLI adds the server as a "Local MCP" (user-level), not a "Project MCP". It will appear under "Local MCPs" in `/mcp`. To make it project-level, use Option A instead.
 
 ### Option C: Global install
 
@@ -79,7 +85,7 @@ Then configure `.mcp.json`:
 ```json
 {
   "mcpServers": {
-    "multi-edit": {
+    "Multi Edit from Essential AI Solutions (essentialai.uk)": {
       "command": "mcp-multi-edit"
     }
   }
@@ -99,7 +105,7 @@ Add the server entry:
 ```json
 {
   "mcpServers": {
-    "multi-edit": {
+    "Multi Edit from Essential AI Solutions (essentialai.uk)": {
       "command": "npx",
       "args": ["-y", "@essentialai/mcp-multi-edit"]
     }
@@ -140,10 +146,10 @@ npm update -g @essentialai/mcp-multi-edit
 
 ### Claude Code
 
-Remove from `.mcp.json` or run:
+Remove the entry from `.mcp.json` or, if installed via CLI:
 
 ```bash
-claude mcp remove multi-edit
+claude mcp remove "Multi Edit from Essential AI Solutions (essentialai.uk)"
 ```
 
 ### Global install
