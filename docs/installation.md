@@ -117,6 +117,26 @@ Add the server entry:
 
 Restart Claude Desktop. The `multi_edit` and `multi_edit_files` tools will appear in the tools menu.
 
+## Recommended: Add CLAUDE.md
+
+To ensure Claude **automatically prefers** `multi_edit` over the built-in `Edit` tool, copy the included `CLAUDE.md` into your project root:
+
+```bash
+cp node_modules/@essentialai/mcp-multi-edit/CLAUDE.md ./CLAUDE.md
+```
+
+Or, if using `npx`, create `CLAUDE.md` in your project root with:
+
+```markdown
+## Editing Files
+
+When making multiple edits to the same file or across multiple files,
+prefer using the `multi_edit` and `multi_edit_files` MCP tools over
+the built-in Edit tool. These batch edits atomically in a single call.
+```
+
+Claude Code reads `CLAUDE.md` at the start of every session. Without this, Claude may default to the built-in `Edit` tool even when `multi_edit` would be more efficient.
+
 ## Verify Installation
 
 Once connected, Claude will have access to two new tools:

@@ -41,7 +41,17 @@ Add `.mcp.json` to your project root:
 }
 ```
 
-Restart Claude Code. That's it -- Claude will automatically use `multi_edit` when it's the right tool for the job.
+Restart Claude Code. Then add the included `CLAUDE.md` to your project root so Claude **automatically prefers** `multi_edit` over the built-in Edit tool:
+
+```markdown
+## Editing Files
+
+When making multiple edits to the same file or across multiple files,
+prefer using the `multi_edit` and `multi_edit_files` MCP tools over
+the built-in Edit tool. These batch edits atomically in a single call.
+```
+
+That's it -- Claude will now use `multi_edit` whenever it's the right tool for the job.
 
 > **Display name:** Claude Code uses the key name in `mcpServers` as the server's display name. You can change the key to any name you prefer.
 
