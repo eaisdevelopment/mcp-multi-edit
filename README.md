@@ -27,12 +27,13 @@ With multi_edit_files:     6 tool calls   |    4,550 tokens   (-94% calls, -71% 
 ## Install
 
 ```bash
-claude mcp add --transport stdio multi-edit -- npx -y @essentialai/mcp-multi-edit
+claude plugin marketplace add eaisdevelopment/claude-plugins
+claude plugin install multi-edit@eaisdevelopment-claude-plugins
 ```
 
-Restart Claude Code (`/exit` then `claude`). Run `/mcp` to verify -- `multi-edit` should show `connected`.
+Restart Claude Code (`/exit` then `claude`). Run `/mcp` to verify -- the server should show `connected`.
 
-> See [docs/installation.md](./docs/installation.md) for Claude Desktop, project-level config, and other options.
+> See [docs/installation.md](./docs/installation.md) for Claude Desktop, manual setup, and other options.
 
 ## Tools
 
