@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.6] - 2026-02-11
+
+### Added
+- `CLAUDE.md` included in package so Claude automatically prefers `multi_edit` over the built-in Edit tool
+
+### Fixed
+- Restored full README.md and installation docs that were accidentally stripped
+- Restored full project CLAUDE.md that was accidentally overwritten
+
+## [0.2.4] - 2026-02-10
+
+### Fixed
+- CLI examples now use simple name (`multi-edit`) since Claude Code CLI rejects spaces and parentheses in server names
+
 ## [0.2.3] - 2026-02-10
 
 ### Changed
@@ -41,5 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace-all flag for global string replacement per edit
 - 90%+ test coverage with unit and integration tests
 
+[0.2.6]: https://github.com/eaisdevelopment/mcp-multi-edit/releases/tag/v0.2.6
+[0.2.4]: https://github.com/eaisdevelopment/mcp-multi-edit/releases/tag/v0.2.4
+[0.2.3]: https://github.com/eaisdevelopment/mcp-multi-edit/releases/tag/v0.2.3
 [0.2.0]: https://github.com/eaisdevelopment/mcp-multi-edit/releases/tag/v0.2.0
 [0.1.0]: https://github.com/eaisdevelopment/mcp-multi-edit/releases/tag/v0.1.0
