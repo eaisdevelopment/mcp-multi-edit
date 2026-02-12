@@ -24,16 +24,63 @@ With multi_edit_files:     6 tool calls   |    4,550 tokens   (-94% calls, -71% 
 > Benchmarks run on realistic scenarios (bulk rename, logging migration, cross-file refactor).
 > See [benchmarks/results/BENCHMARK-REPORT.md](./benchmarks/results/BENCHMARK-REPORT.md) for full details.
 
-## Install
+## Quick Start
 
-```bash
-claude plugin marketplace add eaisdevelopment/claude-plugins
-claude plugin install multi-edit@eaisdevelopment-claude-plugins
+### Claude Code
+
+Add `.mcp.json` to your project root:
+
+```json
+{
+  "mcpServers": {
+    "Multi Edit from Essential AI Solutions (essentialai.uk)": {
+      "command": "npx",
+      "args": ["-y", "@essentialai/mcp-multi-edit"]
+    }
+  }
+}
 ```
 
-Restart Claude Code (`/exit` then `claude`). Run `/mcp` to verify -- the server should show `connected`.
+Restart Claude Code. Then add the included `CLAUDE.md` to your project root so Claude **automatically prefers** `multi_edit` over the built-in Edit tool:
 
-> See [docs/installation.md](./docs/installation.md) for Claude Desktop, manual setup, and other options.
+```markdown
+## Editing Files
+
+When making multiple edits to the same file or across multiple files,
+prefer using the `multi_edit` and `multi_edit_files` MCP tools over
+the built-in Edit tool. These batch edits atomically in a single call.
+```
+
+That's it -- Claude will now use `multi_edit` whenever it's the right tool for the job.
+
+> **Display name:** Claude Code uses the key name in `mcpServers` as the server's display name. You can change the key to any name you prefer.
+
+**Alternative:** One-liner via CLI:
+
+```bash
+claude mcp add --transport stdio multi-edit -- npx -y @essentialai/mcp-multi-edit
+```
+
+> **Note:** The CLI only accepts simple names (letters, numbers, hyphens, underscores). For the full branded display name, use the `.mcp.json` approach above.
+
+### Claude Desktop
+
+Add to your config file (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+
+```json
+{
+  "mcpServers": {
+    "Multi Edit from Essential AI Solutions (essentialai.uk)": {
+      "command": "npx",
+      "args": ["-y", "@essentialai/mcp-multi-edit"]
+    }
+  }
+}
+```
+
+Restart Claude Desktop.
+
+> **Full installation guide:** [docs/installation.md](./docs/installation.md)
 
 ## Tools
 
