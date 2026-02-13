@@ -6,12 +6,12 @@
     "url": "https://github.com/eaisdevelopment/mcp-multi-edit",
     "source": "github"
   },
-  "version": "0.2.6",
+  "version": "0.2.7",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@essentialai/mcp-multi-edit",
-      "version": "0.2.6",
+      "version": "0.2.7",
       "transport": {
         "type": "stdio"
       },
